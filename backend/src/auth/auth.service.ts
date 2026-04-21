@@ -107,13 +107,31 @@ export class AuthService {
         return tokens;
     }
 
-    async logout(userId: string) {
-        await this.prismaService.user.update({
-            where: { id: userId },
-            data: {
-                hashedRefreshToken: null,
-            },
+    async logout(refreshToken: string) {
+        if (!refreshToken) {
+            throw new UnauthorizedException('Refresh token not found');
+        }
+
+        let payload: { sub: string };
+
+        try {
+            payload = await this.jwtService.verify(refreshToken, this.configService.getOrThrow('JWT_REFRESH_SECRET'))
+        } catch {
+            throw new UnauthorizedException('Invalid refresh token');
+        }
+
+        const user = await this.prismaService.user.findUnique({
+            where: { id: payload.sub },
         });
+
+        if (!user || !user.hashedRefreshToken) {
+            throw new UnauthorizedException('Access denied');
+        }
+
+        await this.prismaService.user.update({
+            where: { id: user.id },
+            data: { hashedRefreshToken: null }
+        })
 
         return { message: 'Выход выполнен' };
     }
