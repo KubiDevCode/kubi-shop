@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  email    String  @unique
+  name     String
+  password String
+  basket   Basket?
+  hashedRefreshToken String?
+
+  @@map("users")
+}
+
+model Basket {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  userId         String          @unique @map("user_id")
+  user           User            @relation(fields: [userId], references: [id])
+  productBaskets ProductBasket[]
+
+  @@map("baskets")
+}
+
+model ProductBasket {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  quantity Int @default(1)
+
+  basketId String @map("basket_id")
+  basket   Basket @relation(fields: [basketId], references: [id])
+
+  productId String  @map("product_id")
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@unique([basketId, productId])
+  @@map("product_basket")
+}
+
+model Product {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name  String
+  price Int
+  img   String?
+
+  productBaskets ProductBasket[]
+
+  categoryId String   @map("category_id")
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  brandId String @map("brand_id")
+  brand   Brand  @relation(fields: [brandId], references: [id])
+
+  @@map("products")
+}
+
+model Category {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name     String
+  products Product[]
+
+  brands Brand[]
+
+  @@map("categories")
+}
+
+model Brand {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name String
+
+  products Product[]
+
+  categories Category[]
+
+  @@map("brands")
+}
