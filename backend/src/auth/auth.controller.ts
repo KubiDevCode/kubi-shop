@@ -70,8 +70,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
-  async me(@Res({ passthrough: true }) res: Response) {
-    const user = await this.authService.me()
-    return user
+  async me(@Req() req: Request) {
+    return this.authService.me(req.user.id);
   }
 }

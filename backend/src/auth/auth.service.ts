@@ -139,21 +139,21 @@ export class AuthService {
         return { message: 'Выход выполнен' };
     }
 
-    async me(id: string, email: string) {
+    async me(id: string) {
         const user = await this.prismaService.user.findUnique({
-            where: { email }
-        })
+            where: { id },
+        });
 
         if (!user) {
-            throw new NotFoundException('Пользователь не найден')
+            throw new NotFoundException('Пользователь не найден');
         }
 
         return {
             id: user.id,
             username: user.name,
-            userBasket: user?.basket,
             email: user.email,
-        }
+            userBasket: user.basket,
+        };
     }
 
     private async generateTokens(userId: string, email: string) {
