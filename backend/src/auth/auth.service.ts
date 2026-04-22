@@ -142,6 +142,17 @@ export class AuthService {
     async me(id: string) {
         const user = await this.prismaService.user.findUnique({
             where: { id },
+            include: {
+                basket: {
+                    include: {
+                        productBaskets: {
+                            select: {
+                                productId: true
+                            }
+                        }
+                    }
+                }
+            }
         });
 
         if (!user) {
@@ -152,7 +163,7 @@ export class AuthService {
             id: user.id,
             username: user.name,
             email: user.email,
-            userBasket: user.basket,
+            basketCount: user.basket?.productBaskets.length ?? 0,
         };
     }
 

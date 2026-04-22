@@ -1,12 +1,8 @@
-import { JwtUser } from '../auth/types/jwt-user.type';
+import type { JwtUser } from '../auth/types/jwt-user.type';
 
-declare global {
-    namespace Express {
-        interface User extends JwtUser { }
-
-        interface Request {
-            user: JwtUser;
-        }
+declare module 'express-serve-static-core' {
+    interface Request {
+        user: JwtUser;
     }
 }
 
