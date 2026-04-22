@@ -53,15 +53,25 @@ export class AuthController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('logout')
   async logout(
-    @Req() req: any,
-    @Res() res: Response
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response
   ) {
-    const userId = req.user.id
-    const message = await this.authService.logout(userId)
+    const refreshToken = req.cookies.refreshToken
+    const message = await this.authService.logout(refreshToken)
 
     res.clearCookie('refreshToken')
+
+    return {
+      message: message
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async me(@Res({ passthrough: true }) res: Response) {
+    const user = await this.authService.me()
+    return user
   }
 }

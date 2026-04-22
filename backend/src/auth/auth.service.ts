@@ -1,6 +1,7 @@
 import {
     BadRequestException,
     Injectable,
+    NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -115,7 +116,9 @@ export class AuthService {
         let payload: { sub: string };
 
         try {
-            payload = await this.jwtService.verify(refreshToken, this.configService.getOrThrow('JWT_REFRESH_SECRET'))
+            payload = await this.jwtService.verify(refreshToken, {
+                secret: this.configService.getOrThrow<string>('JWT_REFRESH_SECRET'),
+            })
         } catch {
             throw new UnauthorizedException('Invalid refresh token');
         }
@@ -134,6 +137,23 @@ export class AuthService {
         })
 
         return { message: 'Выход выполнен' };
+    }
+
+    async me(id: string, email: string) {
+        const user = await this.prismaService.user.findUnique({
+            where: { email }
+        })
+
+        if (!user) {
+            throw new NotFoundException('Пользователь не найден')
+        }
+
+        return {
+            id: user.id,
+            username: user.name,
+            userBasket: user?.basket,
+            email: user.email,
+        }
     }
 
     private async generateTokens(userId: string, email: string) {
