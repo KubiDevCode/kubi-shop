@@ -1,15 +1,15 @@
-export class ProductRespons {
+export class ProductResponse {
     id!: string
     name!: string
     price!: number
-    image!: string
+    img!: string | null
 }
 
 export class ProductDetailResponse {
     id!: string
     name!: string
     price!: number
-    image!: string | null
+    img!: string | null
     categoryId!: string
     brandId!: string
 }

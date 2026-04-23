@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
-import { UpdateProductDto } from './dto/update-product.dto';
 import { PrismaService } from '../prisma/prisma.service';
-import { ProductDetailResponse, ProductRespons } from './dto/product.dto';
+import { ProductDetailResponse, ProductResponse } from './dto/product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -10,48 +9,35 @@ export class ProductsService {
   ) { }
 
   async findAll() {
-    const findProducts: ProductRespons[] = await this.prismaService.product.findMany({
+    const findProducts: ProductResponse[] = await this.prismaService.product.findMany({
       select: {
         id: true,
         name: true,
         price: true,
-        image: true,
+        img: true,
       },
     })
-
-    if (!findProducts) {
-      throw new NotFoundException('Продукты не найдены')
-    }
 
     return findProducts
   }
 
-  async findOne(id: string) {
-    const findProduct = await this.prismaService.product.findUnique({
-      where: { id }
+  async findOne(id: string): Promise<ProductDetailResponse> {
+    const product = await this.prismaService.product.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        img: true,
+        brandId: true,
+        categoryId: true,
+      },
     })
 
-    if (!findProduct) {
-      throw new UnauthorizedException('Продукт не найден')
-    }
-
-    const product: ProductDetailResponse = {
-      id: findProduct.id,
-      name: findProduct.name,
-      price: findProduct.price,
-      image: findProduct.img,
-      brandId: findProduct.brandId,
-      categoryId: findProduct.categoryId
+    if (!product) {
+      throw new NotFoundException('Продукт не найден')
     }
 
     return product
-  }
-
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} product`;
   }
 }
