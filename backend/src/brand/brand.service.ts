@@ -8,7 +8,7 @@ export class BrandService {
   constructor(private readonly prismaService: PrismaService) { }
 
   async findAll() {
-    const brand: BrandResponse[] = await this.prismaService.category.findMany(
+    const brand: BrandResponse[] = await this.prismaService.brand.findMany(
       {
         select: {
           id: true,
@@ -20,9 +20,9 @@ export class BrandService {
 
     return brand
   }
-
+  
   async findOne(slug: string): Promise<BrandDetailsResponse> {
-    const brandCategory = await this.prismaService.category.findUnique({
+    const brandCategory = await this.prismaService.brand.findUnique({
       where: {
         slug
       },
