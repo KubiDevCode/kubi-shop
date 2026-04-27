@@ -15,26 +15,28 @@ export class BasketController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch()
+  @Patch('add')
   addProduct(@Req() req: Request, @Body() updateBasketDto: UpdateBasketDto) {
     return this.basketService.addProduct(req.user.id, updateBasketDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch()
+  @Patch('updateQty')
   updateProductQuantity(@Req() req: Request, @Body() updateBasketDto: UpdateBasketDto) {
     return this.basketService.updateProductQuantity(req.user.id, updateBasketDto);
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete()
-  removeProduct(@Req() req: Request, @Body() productId: string) {
+  @Delete('product/:productId')
+  removeProduct(
+    @Req() req: Request,
+    @Param('productId') productId: string) {
     return this.basketService.removeProduct(req.user.id, productId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete()
-  clear(@Req() req: Request, @Body() productId: string) {
+  clear(@Req() req: Request) {
     return this.basketService.clear(req.user.id);
   }
 }
