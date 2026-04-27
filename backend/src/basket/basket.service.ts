@@ -5,12 +5,34 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpdateBasketDto } from './dto/update-basket.dto';
+import { BasketResponseDto, BasketItemResponseDto } from './dto/basket-respons.dto';
+
+const productSelect = {
+  id: true,
+  name: true,
+  price: true,
+  img: true,
+  brand: {
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+    },
+  },
+  category: {
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+    },
+  },
+}
 
 @Injectable()
 export class BasketService {
   constructor(private readonly prismaService: PrismaService) { }
 
-  async findOne(userId: string) {
+  async findOne(userId: string): Promise<BasketResponseDto> {
     const basket = await this.prismaService.basket.findUnique({
       where: {
         userId,
@@ -22,26 +44,7 @@ export class BasketService {
             id: true,
             quantity: true,
             product: {
-              select: {
-                id: true,
-                name: true,
-                price: true,
-                img: true,
-                brand: {
-                  select: {
-                    id: true,
-                    name: true,
-                    slug: true,
-                  },
-                },
-                category: {
-                  select: {
-                    id: true,
-                    name: true,
-                    slug: true,
-                  },
-                },
-              },
+              select: productSelect
             },
           },
         },
@@ -55,8 +58,11 @@ export class BasketService {
     return basket;
   }
 
-  async addProduct(userId: string, dto: UpdateBasketDto) {
-    const basket = await this.getBasketByUserId(userId);
+  async addProduct(
+    userId: string,
+    dto: UpdateBasketDto,
+  ): Promise<BasketItemResponseDto> {
+    const basket = await this.getOrCreateBasket(userId);
 
     const product = await this.prismaService.product.findUnique({
       where: {
@@ -85,10 +91,20 @@ export class BasketService {
         productId: dto.productId,
         quantity: dto.quantity ?? 1,
       },
+      select: {
+        id: true,
+        quantity: true,
+        product: {
+          select: productSelect
+        },
+      },
     });
   }
 
-  async updateProductQuantity(userId: string, dto: UpdateBasketDto) {
+  async updateProductQuantity(
+    userId: string,
+    dto: UpdateBasketDto,
+  ): Promise<BasketItemResponseDto> {
     if (!dto.quantity || dto.quantity < 1) {
       throw new BadRequestException('Количество товара должно быть больше 0');
     }
@@ -118,10 +134,20 @@ export class BasketService {
       data: {
         quantity: dto.quantity,
       },
+      select: {
+        id: true,
+        quantity: true,
+        product: {
+          select: productSelect
+        },
+      },
     });
   }
 
-  async removeProduct(userId: string, productId: string) {
+  async removeProduct(
+    userId: string,
+    productId: string,
+  ): Promise<BasketItemResponseDto> {
     const basket = await this.getBasketByUserId(userId);
 
     const productBasket = await this.prismaService.productBasket.findUnique({
@@ -144,10 +170,17 @@ export class BasketService {
           productId,
         },
       },
+      select: {
+        id: true,
+        quantity: true,
+        product: {
+          select: productSelect
+        },
+      },
     });
   }
 
-  async clear(userId: string) {
+  async clear(userId: string): Promise<{ count: number }> {
     const basket = await this.getBasketByUserId(userId);
 
     return this.prismaService.productBasket.deleteMany({
@@ -157,7 +190,7 @@ export class BasketService {
     });
   }
 
-  private async getBasketByUserId(userId: string) {
+  private async getBasketByUserId(userId: string): Promise<{ id: string }> {
     const basket = await this.prismaService.basket.findUnique({
       where: {
         userId,
@@ -172,5 +205,20 @@ export class BasketService {
     }
 
     return basket;
+  }
+
+  private async getOrCreateBasket(userId: string): Promise<{ id: string }> {
+    return this.prismaService.basket.upsert({
+      where: {
+        userId,
+      },
+      update: {},
+      create: {
+        userId,
+      },
+      select: {
+        id: true,
+      },
+    });
   }
 }
