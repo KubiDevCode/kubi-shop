@@ -64,6 +64,7 @@ export const BestSellerWidget = () => {
                 slidesView={5}
                 className="w-300"
                 options={{ slidesToScroll: 5 }}
+                slideType="fixed"
             >
                 {repeatedBestSellingItems.map((item) => (
                     <ItemCard

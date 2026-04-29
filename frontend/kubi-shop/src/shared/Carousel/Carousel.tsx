@@ -14,6 +14,7 @@ interface CarouselProps {
     slidesView?: number;
     options?: EmblaOptionsType;
     sliderButton?: "outside" | "inside";
+    slideType?: "fixed" | "fluid";
 }
 
 export const Carousel = (props: CarouselProps) => {
@@ -24,6 +25,7 @@ export const Carousel = (props: CarouselProps) => {
         slidesView = 1,
         options,
         sliderButton = "outside",
+        slideType = "fluid",
     } = props;
 
     const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -32,12 +34,20 @@ export const Carousel = (props: CarouselProps) => {
         ...options,
     });
 
-    const slideWidth = 100 / slidesView;
 
     const slides = Children.map(children, (child) => (
         <div
-            className={classNames("shrink-0 grow-0 basis-auto px-3", slideClassName)}
-            style={{ flex: `0 0 ${slideWidth}%` }}
+            className={classNames(
+                "min-w-0 shrink-0 grow-0",
+                slideType === "fixed" && "basis-auto",
+                slideType === "fluid" && "w-full",
+                slideClassName
+            )}
+            style={
+                slideType === "fluid"
+                    ? { flex: `0 0 ${100 / slidesView}%` }
+                    : undefined
+            }
         >
             {child}
         </div>
@@ -61,8 +71,8 @@ export const Carousel = (props: CarouselProps) => {
                 </Button>
             )}
 
-            <div ref={emblaRef} className="overflow-hidden w-full">
-                <div className="-mx-3 flex flex-nowrap">
+            <div ref={emblaRef} className="w-full overflow-hidden">
+                <div className="flex gap-10">
                     {slides}
                 </div>
             </div>

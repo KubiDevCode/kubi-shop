@@ -27,7 +27,7 @@ export const ItemCard = (props: ItemCardProps) => {
                 "box-border flex flex-col rounded-2xl bg-white px-[25px] py-[30px] border-2 border-border"
             )}
             style={{
-                width: isSmall ? "180px" : "200px",
+                width: isSmall ? "180px" : "210px",
                 height: isSmall ? "225px" : "280px",
             }}
         >
