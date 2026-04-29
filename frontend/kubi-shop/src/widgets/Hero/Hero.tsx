@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { Container } from "../../shared/Container/Container";
 import { Carousel } from "../../shared/Carousel/Carousel";
 import goproImage from '../../shared/mockData/hero-mock.jpg'
+import { Button } from "../../shared/Button/Button";
 
 interface HeroProps {
     className?: string;
@@ -42,13 +43,13 @@ export const Hero = ({ className }: HeroProps) => {
                 <Carousel
                     className="w-full bg-border"
                     slideClassName="flex justify-center items-center"
-                    sliderButton="inside"
+                    sliderButton="outside"
                     slidesView={1}
                 >
                     {heroSlides.map((slide) => (
                         <div
                             key={slide.id}
-                            className="grid min-h-[430px] grid-cols-2 items-center"
+                            className="grid min-h-107.5 grid-cols-2 items-center"
                         >
                             <div
                                 className="pl-25"
@@ -61,19 +62,16 @@ export const Hero = ({ className }: HeroProps) => {
                                     {slide.description}
                                 </p>
 
-                                <button
-                                    type="button"
-                                    className="mt-6 rounded-full bg-accent px-8 py-3 text-xs font-medium text-white"
-                                >
+                                <Button>
                                     {slide.buttonText}
-                                </button>
+                                </Button>
                             </div>
 
                             <div className="flex justify-center">
                                 <img
                                     src={slide.image}
                                     alt={slide.imageAlt}
-                                    className="max-h-[360px] object-contain"
+                                    className="max-h-90 object-contain"
                                 />
                             </div>
                         </div>
