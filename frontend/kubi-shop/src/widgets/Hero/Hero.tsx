@@ -45,7 +45,6 @@ export const Hero = ({ className }: HeroProps) => {
                     slideClassName="flex justify-center items-center"
                     sliderButton="outside"
                     slidesView={1}
-                    slideType="fluid"
                 >
                     {heroSlides.map((slide) => (
                         <div

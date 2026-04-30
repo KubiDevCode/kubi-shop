@@ -20,6 +20,24 @@ export const ItemCard = (props: ItemCardProps) => {
 
     const isSmall = size === "small";
 
+    let imgMaxHeight = "";
+
+    if (size === "small" && price) {
+        imgMaxHeight = "max-h-[100px]";
+    }
+
+    if (size === "small" && !price) {
+        imgMaxHeight = "max-h-[120px]";
+    }
+
+    if (size === "big" && price) {
+        imgMaxHeight = "max-h-[130px]";
+    }
+
+    if (size === "big" && !price) {
+        imgMaxHeight = "max-h-[180px]";
+    }
+
     return (
         <div
             className={classNames(
@@ -27,7 +45,7 @@ export const ItemCard = (props: ItemCardProps) => {
                 "box-border flex flex-col rounded-2xl bg-white px-[25px] py-[30px] border-2 border-border"
             )}
             style={{
-                width: isSmall ? "180px" : "210px",
+                width: isSmall ? "180px" : "200px",
                 height: isSmall ? "225px" : "280px",
             }}
         >
@@ -40,7 +58,7 @@ export const ItemCard = (props: ItemCardProps) => {
                 <img
                     className={classNames(
                         "max-w-full object-contain object-center",
-                        isSmall ? "max-h-[120px]" : "max-h-[180px]"
+                        imgMaxHeight
                     )}
                     src={img}
                     alt={title}

@@ -12,9 +12,9 @@ interface CarouselProps {
     slideClassName?: string;
     children: ReactNode;
     slidesView?: number;
+    gap?: number;
     options?: EmblaOptionsType;
     sliderButton?: "outside" | "inside";
-    slideType?: "fixed" | "fluid";
 }
 
 export const Carousel = (props: CarouselProps) => {
@@ -23,31 +23,27 @@ export const Carousel = (props: CarouselProps) => {
         slideClassName,
         children,
         slidesView = 1,
+        gap = 0,
         options,
         sliderButton = "outside",
-        slideType = "fluid",
     } = props;
 
     const [emblaRef, emblaApi] = useEmblaCarousel({
         loop: true,
         align: "start",
+        slidesToScroll: slidesView,
         ...options,
     });
-
 
     const slides = Children.map(children, (child) => (
         <div
             className={classNames(
                 "min-w-0 shrink-0 grow-0",
-                slideType === "fixed" && "basis-auto",
-                slideType === "fluid" && "w-full",
                 slideClassName
             )}
-            style={
-                slideType === "fluid"
-                    ? { flex: `0 0 ${100 / slidesView}%` }
-                    : undefined
-            }
+            style={{
+                flexBasis: `calc((100% - ${gap * (slidesView - 1)}px) / ${slidesView})`,
+            }}
         >
             {child}
         </div>
@@ -57,7 +53,7 @@ export const Carousel = (props: CarouselProps) => {
         "flex h-13 w-13 items-center justify-center rounded border-2 border-border bg-section text-muted";
 
     return (
-        <section className={classNames("relative mx-auto", className)}>
+        <section className={classNames("relative", className)}>
             {sliderButton === "outside" && (
                 <Button
                     onClick={() => emblaApi?.scrollPrev()}
@@ -72,7 +68,7 @@ export const Carousel = (props: CarouselProps) => {
             )}
 
             <div ref={emblaRef} className="w-full overflow-hidden">
-                <div className="flex gap-10">
+                <div className="flex" style={{ gap }}>
                     {slides}
                 </div>
             </div>

@@ -1,4 +1,5 @@
 import { Carousel } from "../../shared/Carousel/Carousel";
+import line from "../../assets/image/line.png";
 
 import phonesImg from "../../shared/mockData/iphone.jpg";
 import playstationsImg from "../../shared/mockData/playstation.jpg";
@@ -59,23 +60,31 @@ const repeatedBestSellingItems = Array.from({ length: 4 }, (_, groupIndex) =>
 export const BestSellerWidget = () => {
     return (
         <Container>
-            <Carousel
-                sliderButton="outside"
-                slidesView={5}
-                className="w-300"
-                options={{ slidesToScroll: 5 }}
-                slideType="fixed"
-            >
-                {repeatedBestSellingItems.map((item) => (
-                    <ItemCard
-                        key={item.id}
-                        title={item.title}
-                        price={item.price}
-                        img={item.img}
-                        size="big"
-                    />
-                ))}
-            </Carousel>
+            <div className="py-10">
+                <div className="mb-10 flex items-center gap-4">
+                    <p className="text-lg uppercase tracking-wide text-gray-600">
+                        Best selling items
+                    </p>
+
+                    <img className="min-w-0 flex-1 object-cover" src={line} alt="" />
+                </div>
+                <Carousel
+                    sliderButton="outside"
+                    slidesView={5}
+                    gap={40}
+                    className="w-300"
+                >
+                    {repeatedBestSellingItems.map((item) => (
+                        <ItemCard
+                            key={item.id}
+                            title={item.title}
+                            price={item.price}
+                            img={item.img}
+                            size="big"
+                        />
+                    ))}
+                </Carousel>
+            </div>
         </Container>
     );
 };
