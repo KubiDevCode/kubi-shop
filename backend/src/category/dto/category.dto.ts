@@ -2,6 +2,7 @@ export class CategoryResponse {
     id!: string
     name!: string
     slug!: string
+    img!: string | null;
 }
 
 export class CategoryDetailsResponse {
@@ -13,4 +14,5 @@ export class CategoryDetailsResponse {
         name: string
         slug: string
     }[]
+    img!: string | null;
 }

@@ -6,18 +6,26 @@ import { CategoryDetailsResponse, CategoryResponse } from './dto/category.dto';
 export class CategoryService {
   constructor(private readonly prismaService: PrismaService) { }
 
-  async findAll() {
-    const categories: CategoryResponse[] = await this.prismaService.category.findMany(
+  async findAll(): Promise<CategoryResponse[]> {
+    const categories = await this.prismaService.category.findMany(
       {
         select: {
           id: true,
           name: true,
+          img: true,
           slug: true
         }
       }
     )
 
-    return categories
+    return categories.map((category) => ({
+      id: category.id,
+      name: category.name,
+      slug: category.slug,
+      img: category.img
+        ? `data:image/jpeg;base64,${Buffer.from(category.img).toString('base64')}`
+        : null,
+    }));
   }
 
   async findOne(slug: string): Promise<CategoryDetailsResponse> {
@@ -29,6 +37,7 @@ export class CategoryService {
         id: true,
         name: true,
         slug: true,
+        img: true,
         brands: {
           select: {
             id: true,
@@ -43,7 +52,15 @@ export class CategoryService {
       throw new NotFoundException('Категория не найдена')
     }
 
-    return findCategory
+    return {
+      id: findCategory.id,
+      name: findCategory.name,
+      slug: findCategory.slug,
+      img: findCategory.img
+        ? `data:image/jpeg;base64,${Buffer.from(findCategory.img).toString('base64')}`
+        : null,
+      brands: findCategory.brands,
+    };
   }
 
 }
