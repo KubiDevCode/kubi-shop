@@ -24,6 +24,7 @@ const productSelect = {
       id: true,
       name: true,
       slug: true,
+      img: true,
     },
   },
 }
@@ -55,7 +56,12 @@ export class BasketService {
       throw new NotFoundException('Корзина не найдена');
     }
 
-    return basket;
+    return {
+      id: basket.id,
+      productBaskets: basket.productBaskets.map((item) =>
+        this.mapBasketItem(item),
+      ),
+    };
   }
 
   async addProduct(
@@ -74,7 +80,7 @@ export class BasketService {
       throw new NotFoundException('Товар не найден');
     }
 
-    return this.prismaService.productBasket.upsert({
+    const item = await this.prismaService.productBasket.upsert({
       where: {
         basketId_productId: {
           basketId: basket.id,
@@ -95,10 +101,12 @@ export class BasketService {
         id: true,
         quantity: true,
         product: {
-          select: productSelect
+          select: productSelect,
         },
       },
     });
+
+    return this.mapBasketItem(item);
   }
 
   async updateProductQuantity(
@@ -124,7 +132,7 @@ export class BasketService {
       throw new NotFoundException('Товар в корзине не найден');
     }
 
-    return this.prismaService.productBasket.update({
+    const item = await this.prismaService.productBasket.update({
       where: {
         basketId_productId: {
           basketId: basket.id,
@@ -138,10 +146,12 @@ export class BasketService {
         id: true,
         quantity: true,
         product: {
-          select: productSelect
+          select: productSelect,
         },
       },
     });
+
+    return this.mapBasketItem(item);
   }
 
   async removeProduct(
@@ -163,7 +173,7 @@ export class BasketService {
       throw new NotFoundException('Товар в корзине не найден');
     }
 
-    return this.prismaService.productBasket.delete({
+    const item = await this.prismaService.productBasket.delete({
       where: {
         basketId_productId: {
           basketId: basket.id,
@@ -174,10 +184,12 @@ export class BasketService {
         id: true,
         quantity: true,
         product: {
-          select: productSelect
+          select: productSelect,
         },
       },
     });
+
+    return this.mapBasketItem(item);
   }
 
   async clear(userId: string): Promise<{ count: number }> {
@@ -220,5 +232,31 @@ export class BasketService {
         id: true,
       },
     });
+  }
+
+  private bytesToBase64Image(img?: Uint8Array | null): string | null {
+    return img
+      ? `data:image/jpeg;base64,${Buffer.from(img).toString('base64')}`
+      : null;
+  }
+
+  private mapBasketItem(item: any): BasketItemResponseDto {
+    return {
+      id: item.id,
+      quantity: item.quantity,
+      product: {
+        id: item.product.id,
+        name: item.product.name,
+        price: item.product.price,
+        img: this.bytesToBase64Image(item.product.img),
+        brand: item.product.brand,
+        category: {
+          id: item.product.category.id,
+          name: item.product.category.name,
+          slug: item.product.category.slug,
+          img: this.bytesToBase64Image(item.product.category.img),
+        },
+      },
+    };
   }
 }

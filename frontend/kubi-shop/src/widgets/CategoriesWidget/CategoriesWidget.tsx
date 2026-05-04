@@ -9,12 +9,15 @@ import earpodsImg from "../../shared/mockData/airpods.jpg";
 import laptopsImg from "../../shared/mockData/laptop.jpg";
 
 import { ItemCard } from "../../entities/ItemCard/ItemCard";
+import { useEffect, useState } from "react";
+import { useGetAllCategoryQuery } from "../../shared/API/api";
 
 export interface Category {
     id: string;
     title: string;
     slug: string;
     img: string;
+    brands: []
 }
 
 const categories: Category[] = [
@@ -57,28 +60,36 @@ const categories: Category[] = [
 ];
 
 export const CategoriesWidget = () => {
+    const { data, isLoading, error } = useGetAllCategoryQuery();
+
+    if (data) {
+        return (
+            <section className="py-10">
+                <Container>
+                    <div className="mb-10 flex items-center gap-4">
+                        <p className="text-lg uppercase tracking-wide text-gray-600">
+                            Categories
+                        </p>
+
+                        <img className="min-w-0 flex-1 object-cover" src={line} alt="" />
+                    </div>
+
+                    <div className="grid grid-cols-6 gap-4">
+                        {data.map((item) => (
+                            <ItemCard
+                                key={item.id}
+                                size="small"
+                                title={item.title}
+                                img={item.img}
+                            />
+                        ))}
+                    </div>
+                </Container>
+            </section>
+        )
+    }
+
     return (
-        <section className="py-10">
-            <Container>
-                <div className="mb-10 flex items-center gap-4">
-                    <p className="text-lg uppercase tracking-wide text-gray-600">
-                        Categories
-                    </p>
-
-                    <img className="min-w-0 flex-1 object-cover" src={line} alt="" />
-                </div>
-
-                <div className="grid grid-cols-6 gap-4">
-                    {categories.map((item) => (
-                        <ItemCard
-                            key={item.id}
-                            size="small"
-                            title={item.title}
-                            img={item.img}
-                        />
-                    ))}
-                </div>
-            </Container>
-        </section>
-    );
+        <h1>СОСИ</h1>
+    )
 };

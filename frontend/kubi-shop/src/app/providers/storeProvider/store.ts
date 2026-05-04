@@ -1,9 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux';
+import { shopApi } from '../../../shared/API/api';
 
 
 export const store = configureStore({
-    reducer: {},
+    reducer: {
+        [shopApi.reducerPath]: shopApi.reducer,
+    },
+
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(shopApi.middleware),
 })
 
 export type RootState = ReturnType<typeof store.getState>

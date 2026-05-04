@@ -8,6 +8,7 @@ export class BasketProductCategoryResponseDto {
     id!: string
     name!: string
     slug!: string
+    img!: string | null
 }
 
 export class BasketProductResponseDto {
