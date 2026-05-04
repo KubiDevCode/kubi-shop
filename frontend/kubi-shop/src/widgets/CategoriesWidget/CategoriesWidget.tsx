@@ -1,95 +1,50 @@
 import { Container } from "../../shared/Container/Container";
 import line from "../../assets/image/line.png";
 
-import phonesImg from "../../shared/mockData/iphone.jpg";
-import playstationsImg from '../../shared/mockData/playstation.jpg';
-import watchesImg from "../../shared/mockData/watch.jpg"
-import joysticksImg from "../../shared/mockData/gamepad.jpg";
-import earpodsImg from "../../shared/mockData/airpods.jpg";
-import laptopsImg from "../../shared/mockData/laptop.jpg";
-
 import { ItemCard } from "../../entities/ItemCard/ItemCard";
-import { useEffect, useState } from "react";
 import { useGetAllCategoryQuery } from "../../shared/API/api";
+import { Skeleton } from "../../shared/Skeletons/Skeletons";
 
 export interface Category {
     id: string;
-    title: string;
+    name: string;
     slug: string;
     img: string;
-    brands: []
+    brands?: []
 }
-
-const categories: Category[] = [
-    {
-        id: "1",
-        title: "Phones",
-        slug: "phones",
-        img: phonesImg,
-    },
-    {
-        id: "2",
-        title: "PlayStations",
-        slug: "playstations",
-        img: playstationsImg,
-    },
-    {
-        id: "3",
-        title: "Digital Watches",
-        slug: "digital-watches",
-        img: watchesImg,
-    },
-    {
-        id: "4",
-        title: "Joysticks",
-        slug: "joysticks",
-        img: joysticksImg,
-    },
-    {
-        id: "5",
-        title: "EarPods",
-        slug: "earpods",
-        img: earpodsImg,
-    },
-    {
-        id: "6",
-        title: "Laptops",
-        slug: "laptops",
-        img: laptopsImg,
-    },
-];
 
 export const CategoriesWidget = () => {
     const { data, isLoading, error } = useGetAllCategoryQuery();
 
-    if (data) {
-        return (
-            <section className="py-10">
-                <Container>
-                    <div className="mb-10 flex items-center gap-4">
-                        <p className="text-lg uppercase tracking-wide text-gray-600">
-                            Categories
-                        </p>
+    return (
+        <section className="py-10">
+            <Container>
+                <div className="mb-10 flex items-center gap-4">
+                    <p className="text-lg uppercase tracking-wide text-gray-600">
+                        Categories
+                    </p>
 
-                        <img className="min-w-0 flex-1 object-cover" src={line} alt="" />
-                    </div>
+                    <img className="min-w-0 flex-1 object-cover" src={line} alt="" />
+                </div>
 
-                    <div className="grid grid-cols-6 gap-4">
-                        {data.map((item) => (
+                <div className="grid grid-cols-6 gap-4">
+                    {isLoading
+                        ? Array.from({ length: 6 }).map((_, index) => (
+                            <div key={index} className="flex flex-col justify-between w-45 h-56.25 rounded-xl border border-gray-200 bg-white p-6.25">
+                                <Skeleton className="mb-4 h-full rounded-lg" />
+                                <Skeleton className="mx-auto h-5 w-24" />
+                            </div>
+                        ))
+                        : data?.map((item) => (
                             <ItemCard
                                 key={item.id}
                                 size="small"
-                                title={item.title}
+                                title={item.name}
                                 img={item.img}
                             />
                         ))}
-                    </div>
-                </Container>
-            </section>
-        )
-    }
-
-    return (
-        <h1>СОСИ</h1>
+                </div>
+            </Container>
+        </section>
     )
 };
