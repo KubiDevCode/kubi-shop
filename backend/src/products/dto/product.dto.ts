@@ -13,3 +13,9 @@ export class ProductDetailResponse {
     categoryId!: string
     brandId!: string
 }
+
+export class ProductPageResponse {
+    page!: number
+    limit!: number
+    products!: ProductResponse[]
+}

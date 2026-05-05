@@ -1,5 +1,4 @@
 import { ItemCard } from "../../entities/ItemCard/ItemCard";
-import { ProductsPagination } from "../../features/ProductsPagination/ProductsPagination";
 import { products } from "../../shared/mockData/products";
 
 
@@ -19,7 +18,7 @@ export const ShopProductList = () => {
                     />
                 )}
             </div>
-            <ProductsPagination />
+
         </section >
     )
 };
