@@ -14,7 +14,7 @@ export interface Category {
 }
 
 export const CategoriesWidget = () => {
-    const { data, isLoading, error } = useGetAllCategoryQuery();
+    const { data, isLoading } = useGetAllCategoryQuery();
 
     return (
         <section className="py-10">

@@ -1,9 +1,10 @@
 import { HomePage } from '../pages/HomePage/HomePage'
+import { ShopPage } from '../pages/ShopPage/ShopPage'
 
 function App() {
   return (
     <>
-      <HomePage />
+      <ShopPage />
     </>
   )
 }
