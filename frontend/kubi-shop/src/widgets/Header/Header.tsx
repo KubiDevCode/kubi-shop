@@ -5,6 +5,8 @@ import UserhIcon from '../../assets/icons/user.svg?react'
 import LikeIcon from '../../assets/icons/like.svg?react'
 import ShopIcon from '../../assets/icons/Shop.svg?react'
 import Logo from '../../assets/icons/logo.svg?react'
+import { Link } from 'react-router-dom';
+import { Path, RouterPath } from '../../shared/config/router/routerPath';
 
 interface HeaderProps {
     className?: string;
@@ -17,9 +19,9 @@ export const Header = ({ className }: HeaderProps) => {
                 <header className="flex justify-between h-18 items-center shrink-0">
                     <Logo />
                     <nav className="flex items-center gap-10 w-max">
-                        <a href="" className='hover:text-accent transition duration-200'>HOME</a>
+                        <Link to={RouterPath[Path.HOME]} className='hover:text-accent transition duration-200'>HOME</Link>
                         <a href="" className='hover:text-accent transition duration-200'>ABOUT</a>
-                        <a href="" className='hover:text-accent transition duration-200'>SHOP</a>
+                        <Link to={RouterPath[Path.SHOP]} className='hover:text-accent transition duration-200'>SHOP</Link>
                         <a href="" className='hover:text-accent transition duration-200'>BLOGS</a>
                         <a href="" className='hover:text-accent transition duration-200'>PAGES</a>
                         <a href="" className='hover:text-accent transition duration-200'>CONTACT</a>

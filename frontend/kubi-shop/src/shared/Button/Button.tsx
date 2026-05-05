@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 interface ButtonProps {
     className?: string;
-    onClick?: () => void
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
     children: ReactNode
     def?: boolean
 }
@@ -15,6 +15,7 @@ export const Button = (props: ButtonProps) => {
         onClick,
         children,
         def = true,
+        ...otherProps
     } = props
 
     return (
@@ -25,6 +26,7 @@ export const Button = (props: ButtonProps) => {
                 }
             )}
             onClick={onClick}
+            {...otherProps}
         >
             {children}
         </button>

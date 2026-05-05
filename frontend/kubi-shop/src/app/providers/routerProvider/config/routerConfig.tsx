@@ -1,6 +1,12 @@
+import type { JSX } from "react"
 import { HomePage } from "../../../../pages/HomePage/HomePage"
 import { ShopPage } from "../../../../pages/ShopPage/ShopPage"
-import { Path, RouterPath, type AppRouterType, type RouterConfigType, } from "./router"
+import { Path, RouterPath, type AppRouterType } from "../../../../shared/config/router/routerPath"
+
+export type RouterConfigType = {
+    path: typeof RouterPath[keyof typeof RouterPath]
+    element: JSX.Element
+}
 
 export const routerConfig = {
     [Path.HOME]: {

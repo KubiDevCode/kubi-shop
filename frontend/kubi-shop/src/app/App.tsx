@@ -1,11 +1,11 @@
-import { HomePage } from '../pages/HomePage/HomePage'
-import { ShopPage } from '../pages/ShopPage/ShopPage'
+import { RouterProvider } from './providers/routerProvider/ui/RouterProvider'
+import { StoreProvider } from './providers/storeProvider/StoreProvider'
 
 function App() {
   return (
-    <>
-      <ShopPage />
-    </>
+    <StoreProvider>
+      <RouterProvider />
+    </StoreProvider>
   )
 }
 
