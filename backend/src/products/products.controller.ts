@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
 
 @Controller('products')
@@ -15,10 +15,10 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
-  @Get()
+  @Get('page')
   findPage(
-    @Query('page') page: number,
-    @Query('limit') limit: number
+    @Query('page', ParseIntPipe) page: number,
+    @Query('limit', ParseIntPipe) limit: number
   ) {
     return this.productsService.findPage(page, limit)
   }
