@@ -1,5 +1,5 @@
 import { BestSellerWidget } from "../../widgets/BestSellerWisget/BestSellerWisget";
-import { CategoriesWidget } from "../../widgets/CategoriesWidget/CategoriesWidget";
+import { CategoriesWidget } from "../../widgets/CategoriesWidget/index";
 import { Header } from "../../widgets/Header/Header";
 import { Hero } from "../../widgets/Hero/Hero";
 

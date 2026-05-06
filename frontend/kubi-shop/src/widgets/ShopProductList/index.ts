@@ -1,0 +1,1 @@
+export { ShopProductList } from "./ui/ShopProductList";

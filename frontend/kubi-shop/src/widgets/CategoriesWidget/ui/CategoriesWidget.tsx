@@ -1,17 +1,10 @@
-import { Container } from "../../shared/Container/Container";
-import line from "../../assets/image/line.png";
+import { Container } from "../../../shared/Container/Container";
+import line from "../../../assets/image/line.png";
 
-import { ItemCard } from "../../entities/ItemCard/ItemCard";
-import { useGetAllCategoryQuery } from "../../shared/API/api";
-import { Skeleton } from "../../shared/Skeletons/Skeletons";
+import { ItemCard } from "../../../entities/ItemCard/ItemCard";
+import { useGetAllCategoryQuery } from "../../../shared/API/api";
+import { Skeleton } from "../../../shared/Skeletons/Skeletons";
 
-export interface Category {
-    id: string;
-    name: string;
-    slug: string;
-    img: string;
-    brands?: []
-}
 
 export const CategoriesWidget = () => {
     const { data, isLoading } = useGetAllCategoryQuery();

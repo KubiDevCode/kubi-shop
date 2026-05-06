@@ -52,7 +52,8 @@ export class ProductsService {
         return {
           ...product,
           img: product.img
-            ? `data:image/jpeg;base64,${Buffer.from(product.img).toString('base64')}`
+          // временно поставил тут свг пока тестовые данные в бд
+            ? `data:image/svg+xml;base64,${Buffer.from(product.img).toString('base64')}`
             : null,
         }
       })

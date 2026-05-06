@@ -5,8 +5,8 @@ interface ItemCardProps {
     className?: string;
     size: "small" | "big";
     title: string;
-    price?: string;
-    img?: string;
+    price?: number;
+    img?: string | null;
 }
 
 export const ItemCard = (props: ItemCardProps) => {
@@ -51,8 +51,7 @@ export const ItemCard = (props: ItemCardProps) => {
         >
             <div
                 className={classNames(
-                    "flex flex-1 items-center justify-center",
-                    isSmall ? "mb-4" : "mb-6"
+                    "flex flex-1 items-center justify-between",
                 )}
             >
                 <img
@@ -65,14 +64,14 @@ export const ItemCard = (props: ItemCardProps) => {
                 />
             </div>
 
-            <div className="flex flex-col items-center gap-2">
+            <div className="flex flex-col items-center gap-2 h-full justify-end">
                 <p className="line-clamp-2 text-center text-base font-medium leading-snug text-black">
                     {title}
                 </p>
 
                 {price && (
                     <p className="text-center text-lg font-semibold text-accent">
-                        {price}
+                        {price}$
                     </p>
                 )}
             </div>

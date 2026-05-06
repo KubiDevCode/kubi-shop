@@ -10,16 +10,16 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(id);
-  }
-
   @Get('page')
   findPage(
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number
   ) {
     return this.productsService.findPage(page, limit)
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.productsService.findOne(id);
   }
 }
