@@ -17,5 +17,7 @@ export class ProductDetailResponse {
 export class ProductPageResponse {
     page!: number
     limit!: number
+    totalPage!: number
+    total!: number
     products!: ProductResponse[]
 }

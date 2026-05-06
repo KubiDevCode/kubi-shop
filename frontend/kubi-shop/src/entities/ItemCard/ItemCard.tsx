@@ -6,7 +6,7 @@ interface ItemCardProps {
     size: "small" | "big";
     title: string;
     price?: number;
-    img?: string | null;
+    img: string | undefined;
 }
 
 export const ItemCard = (props: ItemCardProps) => {
@@ -42,7 +42,7 @@ export const ItemCard = (props: ItemCardProps) => {
         <div
             className={classNames(
                 className,
-                "box-border flex flex-col rounded-2xl bg-white px-[25px] py-[30px] border-2 border-border"
+                "box-border flex flex-col rounded-2xl bg-white px-6.25 py-7.5 border-2 border-border"
             )}
             style={{
                 width: isSmall ? "180px" : "200px",

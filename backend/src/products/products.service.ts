@@ -45,14 +45,18 @@ export class ProductsService {
       },
     })
 
+    const total = await this.prismaService.product.count()
+
     return {
       page: page,
       limit: limit,
+      total,
+      totalPage: Math.ceil(total / limit),
       products: productsPage.map(product => {
         return {
           ...product,
           img: product.img
-          // временно поставил тут свг пока тестовые данные в бд
+            // временно поставил тут свг пока тестовые данные в бд
             ? `data:image/svg+xml;base64,${Buffer.from(product.img).toString('base64')}`
             : null,
         }

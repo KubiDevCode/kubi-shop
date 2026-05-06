@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import type { ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     className?: string;
     onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
     children: ReactNode

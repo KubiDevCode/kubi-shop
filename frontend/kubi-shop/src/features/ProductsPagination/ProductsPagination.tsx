@@ -4,15 +4,19 @@ import { Button } from "../../shared/Button/Button";
 interface ProductsPaginationProps {
     page: number
     setPage: (page: number) => void
+    totalPage: number | undefined
 }
 
 export const ProductsPagination = (props: ProductsPaginationProps) => {
     const {
         page,
         setPage,
+        totalPage = 5,
     } = props
 
-    const pages = Array.from({ length: 5 }, (_, index) => {
+    const pagBut = totalPage < 5 ? totalPage : 5
+
+    const pages = Array.from({ length: pagBut }, (_, index) => {
         if (page <= 3) {
             return index + 1;
         }
@@ -21,17 +25,18 @@ export const ProductsPagination = (props: ProductsPaginationProps) => {
     });
 
     return (
-        <div className="flex gap-5 py-10 w-[830px] mx-auto items-center justify-center">
+        <div className="flex gap-5 py-10 w-207.5 mx-auto items-center justify-center">
             <Button
                 onClick={() => setPage(page - 1)}
-                className="bg-transparent text-black transition duration-200 hover:text-accent"
+                className="bg-transparent text-black transition duration-200 hover:text-accent hover:cursor-pointer"
                 def={false}
+                disabled={page === 1}
                 data-pagination="prev"
             >
                 Prev
             </Button>
 
-            <div className="flex min-w-[240px] justify-center">
+            <div className="flex min-w-ful max-w-60 justify-center">
                 {pages.map((item) =>
                     <Button
                         key={item}
@@ -50,8 +55,9 @@ export const ProductsPagination = (props: ProductsPaginationProps) => {
 
             <Button
                 onClick={() => setPage(page + 1)}
-                className="bg-transparent text-black transition duration-200 hover:text-accent"
+                className="bg-transparent text-black transition duration-200 hover:text-accent hover:cursor-pointer"
                 def={false}
+                disabled={page === totalPage}
                 data-pagination="next"
             >
                 Next

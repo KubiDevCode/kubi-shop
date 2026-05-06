@@ -5,16 +5,10 @@ export interface ProductType {
     img: string
 }
 
-export interface ProductResponse {
-    id: string
-    name: string
-    price: number
-    img: string | null
-}
-
-
 export interface ProductPageType {
     page: number
     limit: number
-    products: ProductResponse[]
+    totalPage: number
+    total: number
+    products: ProductType[]
 }
