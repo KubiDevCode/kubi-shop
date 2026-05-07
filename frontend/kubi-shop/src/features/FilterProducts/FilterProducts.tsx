@@ -12,10 +12,12 @@ export const FilterProducts = (props: FilterProductsProps) => {
             title: "CATEGORIES",
             filters: [
                 { id: 1, title: "All" },
-                { id: 2, title: "Phones" },
-                { id: 3, title: "Accessories" },
-                { id: 4, title: "Tablets" },
-                { id: 5, title: "Watches" },
+                { id: 2, title: "EarPods" },
+                { id: 3, title: "Joysticks" },
+                { id: 4, title: "Laptops" },
+                { id: 5, title: "Phones" },
+                { id: 6, title: "PlayStations" },
+                { id: 7, title: "Digital Watches" },
             ],
         },
         {

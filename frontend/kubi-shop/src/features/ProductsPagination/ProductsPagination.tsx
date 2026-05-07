@@ -36,7 +36,7 @@ export const ProductsPagination = (props: ProductsPaginationProps) => {
                 Prev
             </Button>
 
-            <div className="flex min-w-ful max-w-60 justify-center">
+            <div className="flex max-w-60 justify-center">
                 {pages.map((item) =>
                     <Button
                         key={item}

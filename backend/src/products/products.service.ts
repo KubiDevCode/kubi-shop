@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { ProductDetailResponse, ProductPageResponse, ProductResponse } from './dto/product.dto';
+import { Category, ProductDetailResponse, ProductPageResponse, ProductResponse } from './dto/product.dto';
+
 
 @Injectable()
 export class ProductsService {
@@ -18,14 +19,7 @@ export class ProductsService {
       },
     })
 
-    return findProducts.map(item => ({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      img: item.img
-        ? `data:image/jpeg;base64,${Buffer.from(item.img).toString('base64')}`
-        : null,
-    }))
+    return findProducts.map(product=>this.mapProductsResponse(product))
   }
 
   async findPage(page: number, limit: number = 12): Promise<ProductPageResponse> {
@@ -52,15 +46,7 @@ export class ProductsService {
       limit: limit,
       total,
       totalPage: Math.ceil(total / limit),
-      products: productsPage.map(product => {
-        return {
-          ...product,
-          img: product.img
-            // временно поставил тут свг пока тестовые данные в бд
-            ? `data:image/svg+xml;base64,${Buffer.from(product.img).toString('base64')}`
-            : null,
-        }
-      })
+      products: productsPage.map(product => this.mapProductsResponse(product))
     }
   }
 
@@ -89,6 +75,60 @@ export class ProductsService {
       brandId: product.brandId,
       img: product.img
         ? `data:image/jpeg;base64,${Buffer.from(product.img).toString('base64')}`
+        : null,
+    }
+  }
+
+  async findPageByCategory(categories: Category[], page: number, limit: number = 12): Promise<ProductPageResponse> {
+    if (page <= 0 || limit <= 0) {
+      throw new BadRequestException('Страница или лимит должны быть положительные')
+    }
+
+    const where = categories.includes("all") ? {} : {
+      category: {
+        slug: {
+          in: categories,
+        },
+      },
+    }
+
+    const [total, productsPage] = await Promise.all([
+      this.prismaService.product.count({ where }),
+      this.prismaService.product.findMany({
+        skip: limit * (page - 1),
+        take: limit,
+        where,
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          img: true,
+        },
+      })
+    ])
+
+    return {
+      page: page,
+      limit: limit,
+      total,
+      categories: categories,
+      totalPage: Math.ceil(total / limit),
+      products: productsPage.map(product => this.mapProductsResponse(product))
+    }
+  }
+
+  private mapProductsResponse(product: {
+    id: string;
+    name: string;
+    price: number;
+    img: Uint8Array | null;
+  }) {
+    return {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      img: product.img
+        ? `data:image/svg+xml;base64,${Buffer.from(product.img).toString('base64')}`
         : null,
     }
   }
