@@ -23,17 +23,15 @@ export const shopApi = createApi({
                 }
             )
         }),
-        getPageProductsByCategory: build.query<ProductPageType, { categories:CategoryNameType[],page: number, limit: number }>({
-            query: ({ categories,page, limit }) => (
-                {
-                    url: '/products/page/category',
-                    params: {
-                        categories,
-                        page,
-                        limit
-                    },
-                }
-            )
+        getPageProductsByCategory: build.query({
+            query: ({ categories, page, limit }) => ({
+                url: '/products/page/category',
+                params: {
+                    categories: categories.join(','),
+                    page,
+                    limit,
+                },
+            }),
         }),
     }),
 })

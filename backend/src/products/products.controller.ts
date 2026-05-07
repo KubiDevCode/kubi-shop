@@ -23,7 +23,7 @@ export class ProductsController {
   findPageByCategory(
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
-    @Query('categories', ParseArrayPipe) categories: Category[]) {
+    @Query('categories', ParseArrayPipe) categories: Category[] | []) {
       
     // const invalidCategory = categories.filter(category => !CATEGORIES.includes(category))
 

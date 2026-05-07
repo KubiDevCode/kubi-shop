@@ -84,21 +84,28 @@ export class ProductsService {
       throw new BadRequestException('Страница или лимит должны быть положительные')
     }
 
-    const categoryList = Array.isArray(categories)
-      ? categories
-      : categories
-        ? [categories]
-        : [];
-
-    const where = categoryList.length
-      ? {
-        category: {
-          slug: {
-            in: categoryList,
-          },
+    if (categories.length === 0) {
+      const productsPage = await this.prismaService.product.findMany({
+        skip: (page - 1) * limit,
+        take: limit,
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          img: true,
         },
+      })
+
+      const total = await this.prismaService.product.count()
+
+      return {
+        page: page,
+        limit: limit,
+        total,
+        totalPage: Math.ceil(total / limit),
+        products: productsPage.map(product => this.mapProductsResponse(product))
       }
-      : {};
+    }
 
     const [total, productsPage] = await Promise.all([
       this.prismaService.product.count({ where }),

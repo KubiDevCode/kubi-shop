@@ -27,4 +27,4 @@ export class ProductPageResponse {
 
 export const CATEGORIES = ["earpods", "joysticks", "laptops", "phones", "playstations", "digital-watches"] as const
 
-export type Category = typeof CATEGORIES[number] | []
+export type Category = typeof CATEGORIES[number] 
