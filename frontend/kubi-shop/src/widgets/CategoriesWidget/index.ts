@@ -1,2 +1,2 @@
 export { CategoriesWidget } from "./ui/CategoriesWidget";
-export type { Category } from "./types/categoryTypes";
+export type { CategoryType } from "./types/categoryTypes";

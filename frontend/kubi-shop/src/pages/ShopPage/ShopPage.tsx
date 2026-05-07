@@ -6,13 +6,21 @@ import { Container } from "../../shared/Container/Container";
 import { Header } from "../../widgets/Header/Header";
 import { PageHero } from "../../widgets/PageHero/PageHero";
 import { ShopProductList } from "../../widgets/ShopProductList/index";
-import { useGetPageProductsQuery } from "../../shared/API/api";
+import { useGetPageProductsByCategoryQuery, useGetPageProductsQuery } from "../../shared/API/api";
+import type { CategoryNameType } from "../../widgets/CategoriesWidget/types/categoryTypes";
 
 export const ShopPage = () => {
     const [page, setPage] = useState(1)
+    const [categories, setCategory] = useState<CategoryNameType[]>(['all'])
     const limit = 12
 
-    const { data, isLoading } = useGetPageProductsQuery({ page, limit })
+    const setFilter = (data: []) => {
+        const result = data.filter(item => item !== 'all')
+        setCategory(prev => ([...prev, ...result]))
+    }
+
+    // const { data, isLoading } = useGetPageProductsQuery({ page, limit })
+    const {data,isLoading} = useGetPageProductsByCategoryQuery({page,limit,categories})
     return (
         <>
             <Header />
@@ -20,7 +28,7 @@ export const ShopPage = () => {
             <Container className="pt-25">
                 <div className="flex justify-between">
                     <ShopProductList data={data} isLoading={isLoading} limit={limit} />
-                    <FilterProducts />
+                    <FilterProducts onSelectCategory={setFilter} />
                 </div>
                 <ProductsPagination
                     totalPage={data?.totalPage}

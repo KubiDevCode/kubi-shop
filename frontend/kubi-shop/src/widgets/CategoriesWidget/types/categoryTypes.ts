@@ -1,7 +1,9 @@
-export interface Category {
+export interface CategoryType {
     id: string;
-    name: string;
+    name: CategoryNameType;
     slug: string;
     img: string;
     brands?: []
 }
+
+export type CategoryNameType = "all" | "earpods" | "joysticks" | "laptops" | "phones" | "playstations" | "digital-watches"
