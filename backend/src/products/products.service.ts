@@ -84,13 +84,21 @@ export class ProductsService {
       throw new BadRequestException('Страница или лимит должны быть положительные')
     }
 
-    const where = categories.length === 0 ? {} : {
-      category: {
-        slug: {
-          in: categories,
+    const categoryList = Array.isArray(categories)
+      ? categories
+      : categories
+        ? [categories]
+        : [];
+
+    const where = categoryList.length
+      ? {
+        category: {
+          slug: {
+            in: categoryList,
+          },
         },
-      },
-    }
+      }
+      : {};
 
     const [total, productsPage] = await Promise.all([
       this.prismaService.product.count({ where }),

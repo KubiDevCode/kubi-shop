@@ -11,15 +11,15 @@ export class ProductsController {
     return this.productsService.findAll();
   }
 
-  @Get('page')
-  findPage(
-    @Query('page', ParseIntPipe) page: number,
-    @Query('limit', ParseIntPipe) limit: number
-  ) {
-    return this.productsService.findPage(page, limit)
-  }
+  // @Get('page')
+  // findPage(
+  //   @Query('page', ParseIntPipe) page: number,
+  //   @Query('limit', ParseIntPipe) limit: number
+  // ) {
+  //   return this.productsService.findPage(page, limit)
+  // }
 
-  @Get('page/category')
+  @Get('page')
   findPageByCategory(
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
