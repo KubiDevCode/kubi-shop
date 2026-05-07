@@ -79,32 +79,17 @@ export class ProductsService {
     }
   }
 
-  async findPageByCategory(categories: Category[], page: number, limit: number = 12): Promise<ProductPageResponse> {
+  async findPageByCategory(categories: Category[] | [], page: number, limit: number = 12): Promise<ProductPageResponse> {
     if (page <= 0 || limit <= 0) {
       throw new BadRequestException('Страница или лимит должны быть положительные')
     }
 
-    if (categories.length === 0) {
-      const productsPage = await this.prismaService.product.findMany({
-        skip: (page - 1) * limit,
-        take: limit,
-        select: {
-          id: true,
-          name: true,
-          price: true,
-          img: true,
+    const where = categories.length === 0 ? {} : {
+      category: {
+        slug: {
+          in: categories,
         },
-      })
-
-      const total = await this.prismaService.product.count()
-
-      return {
-        page: page,
-        limit: limit,
-        total,
-        totalPage: Math.ceil(total / limit),
-        products: productsPage.map(product => this.mapProductsResponse(product))
-      }
+      },
     }
 
     const [total, productsPage] = await Promise.all([

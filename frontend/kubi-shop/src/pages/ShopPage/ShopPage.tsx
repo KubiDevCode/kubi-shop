@@ -6,7 +6,7 @@ import { Container } from "../../shared/Container/Container";
 import { Header } from "../../widgets/Header/Header";
 import { PageHero } from "../../widgets/PageHero/PageHero";
 import { ShopProductList } from "../../widgets/ShopProductList/index";
-import { useGetPageProductsByCategoryQuery, useGetPageProductsQuery } from "../../shared/API/api";
+import { useGetPageProductsByCategoryQuery } from "../../shared/API/api";
 import type { CategoryNameType } from "../../widgets/CategoriesWidget/types/categoryTypes";
 
 export const ShopPage = () => {
@@ -18,24 +18,22 @@ export const ShopPage = () => {
         setPage(1);
 
         if (category === 'all') {
-            setCategory(['all']);
+            setCategory([]);
             return;
         }
 
         setCategory(prev => {
-            const withoutAll = prev.filter(item => item !== 'all');
-
-            if (withoutAll.includes(category)) {
-                const next = withoutAll.filter(item => item !== category);
-                return next.length ? next : ['all'];
+            if (prev.includes(category)) {
+                const next = prev.filter(item => item !== category);
+                return next.length ? next : [];
             }
 
-            return [...withoutAll, category];
+            return [...prev, category];
         });
     };
 
     // const { data, isLoading } = useGetPageProductsQuery({ page, limit })
-    const {data,isLoading} = useGetPageProductsByCategoryQuery({page,limit,categories})
+    const { data, isLoading } = useGetPageProductsByCategoryQuery({ page, limit, categories })
     return (
         <>
             <Header />

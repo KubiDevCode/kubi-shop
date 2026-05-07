@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import line from "../../assets/image/line.png";
 import { Button } from "../../shared/Button/Button";
+import type { CategoryNameType } from "../../widgets/CategoriesWidget/types/categoryTypes";
 
 interface FilterItem {
     id: number;
@@ -12,7 +13,7 @@ interface FilterSectionProps {
     className?: string;
     title: string;
     filters: FilterItem[];
-    onClick: (data?: []) => void
+    onClick: (data: CategoryNameType) => void
 }
 
 export const FilterSection = (props: FilterSectionProps) => {
@@ -31,17 +32,19 @@ export const FilterSection = (props: FilterSectionProps) => {
             />
 
             <div className="flex flex-col items-start gap-3.75">
-                {filters.map(item => (
-                    <Button
-                        key={item.id}
-                        className="bg-transparent p-0 text-[20px] font-light leading-none text-black transition duration-200 hover:text-accent"
-                        def={false}
-                        onClick={() => onClick(item.data)}
-                        data-
-                    >
-                        {item.title}
-                    </Button>
-                ))}
+                {filters.map(item => {
+
+                    return (
+                        <Button
+                            key={item.id}
+                            className="bg-transparent p-0 text-[20px] font-light leading-none text-black transition duration-200 hover:text-accent"
+                            def={false}
+                            onClick={() => onClick(item.data)}
+                        >
+                            {item.title}
+                        </Button>
+                    )
+                })}
             </div>
         </div >
     );

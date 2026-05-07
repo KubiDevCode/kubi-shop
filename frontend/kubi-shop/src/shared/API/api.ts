@@ -23,19 +23,28 @@ export const shopApi = createApi({
                 }
             )
         }),
-        getPageProductsByCategory: build.query({
-            query: ({ categories, page, limit }) => ({
-                url: '/products/page/category',
-                params: {
-                    categories: categories.join(','),
-                    page,
-                    limit,
-                },
-            }),
+        getPageProductsByCategory: build.query<ProductPageType, { categories: CategoryNameType[], page: number, limit: number }>({
+            query: ({ categories, page, limit }) => {
+                if (!categories || categories.length === 0) {
+                    return {
+                        url: '/products/page',
+                        params: { page, limit },
+                    };
+                }
+
+                return {
+                    url: '/products/page/category',
+                    params: {
+                        categories,
+                        page,
+                        limit,
+                    },
+                };
+            },
         }),
     }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAllCategoryQuery, useGetPageProductsQuery, useGetPageProductsByCategoryQuery} = shopApi
+export const { useGetAllCategoryQuery, useGetPageProductsQuery, useGetPageProductsByCategoryQuery } = shopApi

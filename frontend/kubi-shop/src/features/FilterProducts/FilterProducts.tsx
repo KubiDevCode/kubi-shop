@@ -1,9 +1,10 @@
 import classNames from 'classnames';
 import { FilterSection } from '../../entities/FilterSection/FilterSection';
+import type { CategoryNameType } from '../../widgets/CategoriesWidget/types/categoryTypes';
 
 interface FilterProductsProps {
     className?: string;
-    onSelectCategory: (data:[]) => void
+    onSelectCategory: (data: CategoryNameType) => void
 }
 
 export const FilterProducts = (props: FilterProductsProps) => {
@@ -13,7 +14,7 @@ export const FilterProducts = (props: FilterProductsProps) => {
             id: 1,
             title: "CATEGORIES",
             filters: [
-                { id: 1, title: "All" },
+                { id: 1, title: "All", data: 'all' },
                 { id: 2, title: "EarPods", data: 'earpods' },
                 { id: 3, title: "Joysticks", data: 'joysticks' },
                 { id: 4, title: "Laptops", data: 'laptops' },
@@ -22,25 +23,25 @@ export const FilterProducts = (props: FilterProductsProps) => {
                 { id: 7, title: "Digital Watches", data: 'digital-watches' },
             ],
         },
-        {
-            id: 2,
-            title: "TAGS",
-            filters: [
-                { id: 1, title: "White" },
-                { id: 2, title: "Cheap" },
-                { id: 3, title: "Mobile" },
-                { id: 4, title: "Modern" },
-            ],
-        },
-        {
-            id: 3,
-            title: "BRANDS",
-            filters: [
-                { id: 1, title: "Apple" },
-                { id: 2, title: "Samsung" },
-                { id: 3, title: "Green" },
-            ],
-        },
+        // {
+        //     id: 2,
+        //     title: "TAGS",
+        //     filters: [
+        //         { id: 1, title: "White" },
+        //         { id: 2, title: "Cheap" },
+        //         { id: 3, title: "Mobile" },
+        //         { id: 4, title: "Modern" },
+        //     ],
+        // },
+        // {
+        //     id: 3,
+        //     title: "BRANDS",
+        //     filters: [
+        //         { id: 1, title: "Apple" },
+        //         { id: 2, title: "Samsung" },
+        //         { id: 3, title: "Green" },
+        //     ],
+        // },
     ];
 
 
