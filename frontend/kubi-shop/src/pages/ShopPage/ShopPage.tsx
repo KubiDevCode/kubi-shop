@@ -11,13 +11,28 @@ import type { CategoryNameType } from "../../widgets/CategoriesWidget/types/cate
 
 export const ShopPage = () => {
     const [page, setPage] = useState(1)
-    const [categories, setCategory] = useState<CategoryNameType[]>(['all'])
     const limit = 12
+    const [categories, setCategory] = useState<CategoryNameType[]>([]);
 
-    const setFilter = (data: []) => {
-        const result = data.filter(item => item !== 'all')
-        setCategory(prev => ([...prev, ...result]))
-    }
+    const setFilter = (category: CategoryNameType) => {
+        setPage(1);
+
+        if (category === 'all') {
+            setCategory(['all']);
+            return;
+        }
+
+        setCategory(prev => {
+            const withoutAll = prev.filter(item => item !== 'all');
+
+            if (withoutAll.includes(category)) {
+                const next = withoutAll.filter(item => item !== category);
+                return next.length ? next : ['all'];
+            }
+
+            return [...withoutAll, category];
+        });
+    };
 
     // const { data, isLoading } = useGetPageProductsQuery({ page, limit })
     const {data,isLoading} = useGetPageProductsByCategoryQuery({page,limit,categories})

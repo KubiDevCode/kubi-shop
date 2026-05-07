@@ -13,7 +13,7 @@ export const FilterProducts = (props: FilterProductsProps) => {
             id: 1,
             title: "CATEGORIES",
             filters: [
-                { id: 1, title: "All", data: 'all' },
+                { id: 1, title: "All" },
                 { id: 2, title: "EarPods", data: 'earpods' },
                 { id: 3, title: "Joysticks", data: 'joysticks' },
                 { id: 4, title: "Laptops", data: 'laptops' },

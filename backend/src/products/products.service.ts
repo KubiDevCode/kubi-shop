@@ -19,7 +19,7 @@ export class ProductsService {
       },
     })
 
-    return findProducts.map(product=>this.mapProductsResponse(product))
+    return findProducts.map(product => this.mapProductsResponse(product))
   }
 
   async findPage(page: number, limit: number = 12): Promise<ProductPageResponse> {
@@ -84,7 +84,7 @@ export class ProductsService {
       throw new BadRequestException('Страница или лимит должны быть положительные')
     }
 
-    const where = categories.includes("all") ? {} : {
+    const where = categories.length === 0 ? {} : {
       category: {
         slug: {
           in: categories,

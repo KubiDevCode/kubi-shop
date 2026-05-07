@@ -25,12 +25,6 @@ export class ProductPageResponse {
     products!: ProductResponse[]
 }
 
-export const CATEGORIES = ["all", "earpods", "joysticks", "laptops", "phones", "playstations", "digital-watches"] as const
+export const CATEGORIES = ["earpods", "joysticks", "laptops", "phones", "playstations", "digital-watches"] as const
 
-export type Category = typeof CATEGORIES[number]
-
-export class CategoryRequest {
-    @IsArray({ message: 'категории должны быть в массиве' })
-    @IsIn(CATEGORIES, { each: true, message: 'Несуществующие категеории' })
-    categories!: Category[];
-}
+export type Category = typeof CATEGORIES[number] | []

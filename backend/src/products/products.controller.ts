@@ -25,11 +25,11 @@ export class ProductsController {
     @Query('limit', ParseIntPipe) limit: number,
     @Query('categories', ParseArrayPipe) categories: Category[]) {
       
-    const invalidCategory = categories.filter(category => !CATEGORIES.includes(category))
+    // const invalidCategory = categories.filter(category => !CATEGORIES.includes(category))
 
-    if (invalidCategory.length > 0) {
-      throw new BadRequestException(`Несуществующие категории: ${invalidCategory.join(', ')}`)
-    }
+    // if (invalidCategory.length > 0) {
+    //   throw new BadRequestException(`Несуществующие категории: ${invalidCategory.join(', ')}`)
+    // }
 
     return this.productsService.findPageByCategory(categories, page, limit)
   }
