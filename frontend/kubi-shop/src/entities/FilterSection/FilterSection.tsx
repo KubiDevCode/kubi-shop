@@ -1,22 +1,25 @@
 import classNames from "classnames";
 import line from "../../assets/image/line.png";
 import { Button } from "../../shared/Button/Button";
+import { useActiveFilters } from "../../shared/hooks/useActiveFilters";
 
 interface FilterItem {
     id: number;
     title: string;
-    data?: string
+    data: string;
 }
 
 interface FilterSectionProps {
     className?: string;
     title: string;
     filters: FilterItem[];
-    onClick: (data: FilterItem) => void
+    onClick: (data: FilterItem) => void;
 }
 
 export const FilterSection = (props: FilterSectionProps) => {
     const { className, title, filters, onClick } = props;
+
+    const { isActive, toggleFilter } = useActiveFilters()
 
     return (
         <div className={classNames(className, "w-77.5")}>
@@ -32,19 +35,44 @@ export const FilterSection = (props: FilterSectionProps) => {
 
             <div className="flex flex-col items-start gap-3.75">
                 {filters.map(item => {
+                    // const isActive = activeFilters.includes(item.data);
 
                     return (
                         <Button
                             key={item.id}
-                            className="bg-transparent p-0 text-[20px] font-light leading-none text-black transition duration-200 hover:text-accent"
+                            className={classNames(
+                                "bg-transparent p-0 text-[20px] font-light leading-none transition duration-200 hover:text-accent",
+                                isActive(item.data) ? "text-accent" : "text-black"
+                            )}
                             def={false}
-                            onClick={() => onClick(item)}
+                            onClick={() => {
+                                onClick(item);
+                                toggleFilter(item.data)
+                                // setActiveFilters(prev => {
+                                //     if (item.data === 'all') {
+                                //         return ['all'];
+                                //     }
+
+                                //     if (prev.includes(item.data)) {
+                                //         const result = prev.filter(filter => filter !== item.data);
+                                //         if (result.length === 0) {
+                                //             return ['all']
+                                //         }
+
+                                //         return result
+                                //     }
+
+                                //     const result = prev.filter(filter => filter !== 'all')
+
+                                //     return [...result, item.data]
+                                // });
+                            }}
                         >
                             {item.title}
                         </Button>
-                    )
+                    );
                 })}
             </div>
-        </div >
+        </div>
     );
 };
