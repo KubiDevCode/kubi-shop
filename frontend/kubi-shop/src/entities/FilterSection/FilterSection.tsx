@@ -1,7 +1,6 @@
 import classNames from "classnames";
 import line from "../../assets/image/line.png";
 import { Button } from "../../shared/Button/Button";
-import type { CategoryNameType } from "../../widgets/CategoriesWidget/types/categoryTypes";
 
 interface FilterItem {
     id: number;
@@ -13,7 +12,7 @@ interface FilterSectionProps {
     className?: string;
     title: string;
     filters: FilterItem[];
-    onClick: (data: CategoryNameType) => void
+    onClick: (data: FilterItem) => void
 }
 
 export const FilterSection = (props: FilterSectionProps) => {
@@ -39,7 +38,7 @@ export const FilterSection = (props: FilterSectionProps) => {
                             key={item.id}
                             className="bg-transparent p-0 text-[20px] font-light leading-none text-black transition duration-200 hover:text-accent"
                             def={false}
-                            onClick={() => onClick(item.data)}
+                            onClick={() => onClick(item)}
                         >
                             {item.title}
                         </Button>

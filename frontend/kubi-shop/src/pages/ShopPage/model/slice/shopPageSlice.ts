@@ -20,18 +20,39 @@ export const shopPageSlice = createSlice({
     name: 'shopPage',
     initialState,
     reducers: {
+
+        toggleCategory: (state, action: PayloadAction<CategoryNameType>) => {
+            const category = action.payload
+
+            if (category === 'all') {
+                state.shopPage.categories = []
+                return
+            }
+
+            if (state.shopPage.categories.includes(category)) {
+                state.shopPage.categories = state.shopPage.categories.filter(
+                    item => item !== category
+                );
+                return
+            }
+
+            state.shopPage.categories.push(category)
+        },
+
         setPagination: (state, action: PayloadAction<number>) => {
             state.shopPage.pagination = action.payload
         },
-        addCategory: (state, action: PayloadAction<CategoryNameType>) => {
-            state.shopPage.categories.push(action.payload)
-        },
-        removeCategory: (state, action: PayloadAction<CategoryNameType>) => {
-            state.shopPage.categories.filter(item => item !== action.payload)
-        },
-        resetCategory: (state) => {
-            state.shopPage.categories = []
-        }
+        // addCategory: (state, action: PayloadAction<CategoryNameType>) => {
+        //     state.shopPage.categories.push(action.payload)
+        // },
+        // removeCategory: (state, action: PayloadAction<CategoryNameType>) => {
+        //     state.shopPage.categories = state.shopPage.categories.filter(
+        //         item => item !== action.payload
+        //     );
+        // },
+        // resetCategory: (state) => {
+        //     state.shopPage.categories = []
+        // }
     },
 })
 

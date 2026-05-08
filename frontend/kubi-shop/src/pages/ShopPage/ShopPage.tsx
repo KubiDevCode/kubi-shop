@@ -9,34 +9,35 @@ import { ShopProductList } from "../../widgets/ShopProductList/index";
 import { useGetPageProductsByCategoryQuery } from "../../shared/API/api";
 import type { CategoryNameType } from "../../widgets/CategoriesWidget/types/categoryTypes";
 import { useAppDispatch, useAppSelector } from "../../app/providers/storeProvider/store";
-import { getShopPagePagination } from "./model/selectors/shopPageSelectors";
+import { getShopPageCategories, getShopPagePagination } from "./model/selectors/shopPageSelectors";
 import { shopPageActions } from "./model/slice/shopPageSlice";
 
 export const ShopPage = () => {
     // const page = useAppSelector(getShopPagePagination)
+    const categories = useAppSelector(getShopPageCategories)
     const dispatch = useAppDispatch()
     const [page, setPage] = useState(1)
     const limit = 12
-    const [categories, setCategory] = useState<CategoryNameType[]>([]);
+    // const [categories, setCategory] = useState<CategoryNameType[]>([]);
 
-    const setFilter = (category: CategoryNameType) => {
-        setPage(1);
-        // dispatch(shopPageActions.setPagination(1))
+    // const setFilter = (category: CategoryNameType) => {
+    //     setPage(1);
+    //     // dispatch(shopPageActions.setPagination(1))
 
-        if (category === 'all') {
-            dispatch(shopPageActions.resetCategory())
-            return;
-        }
+    //     if (category === 'all') {
+    //         dispatch(shopPageActions.resetCategory())
+    //         return;
+    //     }
 
-        setCategory(prev => {
-            if (prev.includes(category)) {
-                const next = prev.filter(item => item !== category);
-                return next.length ? next : [];
-            }
+    //     setCategory(prev => {
+    //         if (prev.includes(category)) {
+    //             const next = prev.filter(item => item !== category);
+    //             return next.length ? next : [];
+    //         }
 
-            return [...prev, category];
-        });
-    };
+    //         return [...prev, category];
+    //     });
+    // };
 
     // const { data, isLoading } = useGetPageProductsQuery({ page, limit })
     const { data, isLoading } = useGetPageProductsByCategoryQuery({ page, limit, categories })
@@ -47,7 +48,7 @@ export const ShopPage = () => {
             <Container className="pt-25">
                 <div className="flex justify-between">
                     <ShopProductList data={data} isLoading={isLoading} limit={limit} />
-                    <FilterProducts onSelectCategory={setFilter} />
+                    <FilterProducts />
                 </div>
                 <ProductsPagination
                     totalPage={data?.totalPage}
