@@ -1,6 +1,10 @@
 import classNames from 'classnames';
 import { FilterSection } from '../../entities/FilterSection/FilterSection';
 import type { CategoryNameType } from '../../widgets/CategoriesWidget/types/categoryTypes';
+import { useAppDispatch, useAppSelector } from '../../app/providers/storeProvider/store';
+import { getShopPageCategories } from '../../pages/ShopPage/model/selectors/shopPageSelectors';
+import { shopPageActions } from '../../pages/ShopPage/model/slice/shopPageSlice';
+import { useState } from 'react';
 
 interface FilterProductsProps {
     className?: string;
@@ -9,10 +13,14 @@ interface FilterProductsProps {
 
 export const FilterProducts = (props: FilterProductsProps) => {
     const { className, onSelectCategory } = props
+    const [onClick, setOnClick] = useState<(...arg: any) => void>()
+    const dispatch = useAppDispatch()
+
     const shopFilters = [
         {
             id: 1,
             title: "CATEGORIES",
+            type: 'category',
             filters: [
                 { id: 1, title: "All", data: 'all' },
                 { id: 2, title: "EarPods", data: 'earpods' },
@@ -48,13 +56,50 @@ export const FilterProducts = (props: FilterProductsProps) => {
     return (
         <section className={classNames(className)}>
             <div className="flex flex-col gap-7.5">
-                {shopFilters.map(item =>
-                    <FilterSection
-                        title={item.title}
-                        filters={item.filters}
-                        key={item.id}
-                        onClick={onSelectCategory}
-                    />
+                {shopFilters.map(item => {
+
+                    const onSelectCategory = (data: CategoryNameType) => {
+                        const categories = useAppSelector(getShopPageCategories)
+
+                        if (categories.includes(data)) {
+                            dispatch(shopPageActions.removeCategory(data))
+                        }
+
+                        if (data === 'all') {
+                            dispatch(shopPageActions.resetCategory())
+                        }
+
+                        dispatch(shopPageActions.addCategory(data))
+                    }
+
+                    switch (item.type) {
+                        case 'category':
+                            setOnClick(onSelectCategory)
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    // setCategory(prev => {
+                    //     if (prev.includes(category)) {
+                    //         const next = prev.filter(item => item !== category);
+                    //         return next.length ? next : [];
+                    //     }
+
+                    //     return [...prev, category];
+                    // });
+
+
+                    return (
+                        <FilterSection
+                            title={item.title}
+                            filters={item.filters}
+                            key={item.id}
+                            onClick={onClick}
+                        />
+                    )
+                }
                 )}</div>
         </section>
     );

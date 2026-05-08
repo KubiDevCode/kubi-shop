@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux';
 import { shopApi } from '../../../shared/API/api';
+import { shopPageReducer } from '../../../pages/ShopPage/model/slice/shopPageSlice';
 
 
 export const store = configureStore({
     reducer: {
         [shopApi.reducerPath]: shopApi.reducer,
+        shopPage: shopPageReducer
     },
 
     middleware: (getDefaultMiddleware) =>

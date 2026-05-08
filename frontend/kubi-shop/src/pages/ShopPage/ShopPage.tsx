@@ -8,17 +8,23 @@ import { PageHero } from "../../widgets/PageHero/PageHero";
 import { ShopProductList } from "../../widgets/ShopProductList/index";
 import { useGetPageProductsByCategoryQuery } from "../../shared/API/api";
 import type { CategoryNameType } from "../../widgets/CategoriesWidget/types/categoryTypes";
+import { useAppDispatch, useAppSelector } from "../../app/providers/storeProvider/store";
+import { getShopPagePagination } from "./model/selectors/shopPageSelectors";
+import { shopPageActions } from "./model/slice/shopPageSlice";
 
 export const ShopPage = () => {
+    // const page = useAppSelector(getShopPagePagination)
+    const dispatch = useAppDispatch()
     const [page, setPage] = useState(1)
     const limit = 12
     const [categories, setCategory] = useState<CategoryNameType[]>([]);
 
     const setFilter = (category: CategoryNameType) => {
         setPage(1);
+        // dispatch(shopPageActions.setPagination(1))
 
         if (category === 'all') {
-            setCategory([]);
+            dispatch(shopPageActions.resetCategory())
             return;
         }
 
