@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import type { CategoryType } from '../../widgets/CategoriesWidget/index'
 import type { ProductPageType } from '../../widgets/ShopProductList/types/productType'
-import type { CategoryNameType } from '../../widgets/CategoriesWidget/types/categoryTypes'
+import type { CategoryNameType } from '../../entities/Category/types/categoryTypes'
+import type { BrandNameType } from '../../entities/Brand/types/brandTypes'
 
 
 // Define a service using a base URL and expected endpoints
@@ -42,9 +43,33 @@ export const shopApi = createApi({
                 };
             },
         }),
+        getPageProductsByBrand: build.query<ProductPageType, { brands: BrandNameType[], page: number, limit: number }>({
+            query: ({ brands, page, limit }) => {
+                if (!brands || brands.length === 0) {
+                    return {
+                        url: '/products/page',
+                        params: { page, limit },
+                    };
+                }
+
+                return {
+                    url: '/products/page/category',
+                    params: {
+                        brands,
+                        page,
+                        limit,
+                    },
+                };
+            },
+        }),
     }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAllCategoryQuery, useGetPageProductsQuery, useGetPageProductsByCategoryQuery } = shopApi
+export const {
+    useGetAllCategoryQuery,
+    useGetPageProductsQuery,
+    useGetPageProductsByCategoryQuery,
+    useGetPageProductsByBrandQuery,
+} = shopApi

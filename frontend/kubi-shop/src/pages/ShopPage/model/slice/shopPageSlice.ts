@@ -1,18 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { CategoryNameType } from '../../../../widgets/CategoriesWidget/types/categoryTypes'
+import type { CategoryNameType } from '../../../../entities/Category/types/categoryTypes'
+import type { BrandNameType } from '../../../../entities/Brand/types/brandTypes'
 
 export interface ShopPageState {
     shopPage: {
-        pagination: number
         categories: CategoryNameType[]
+        brands: BrandNameType[]
     }
 }
 
 const initialState: ShopPageState = {
     shopPage: {
-        pagination: 1,
-        categories: []
+        categories: [],
+        brands: []
     }
 }
 
@@ -39,20 +40,23 @@ export const shopPageSlice = createSlice({
             state.shopPage.categories.push(category)
         },
 
-        setPagination: (state, action: PayloadAction<number>) => {
-            state.shopPage.pagination = action.payload
-        },
-        // addCategory: (state, action: PayloadAction<CategoryNameType>) => {
-        //     state.shopPage.categories.push(action.payload)
-        // },
-        // removeCategory: (state, action: PayloadAction<CategoryNameType>) => {
-        //     state.shopPage.categories = state.shopPage.categories.filter(
-        //         item => item !== action.payload
-        //     );
-        // },
-        // resetCategory: (state) => {
-        //     state.shopPage.categories = []
-        // }
+        toggleBrands: (state, action: PayloadAction<BrandNameType>) => {
+            const brand = action.payload
+
+            if (brand === 'all') {
+                state.shopPage.brands = []
+                return
+            }
+
+            if (state.shopPage.brands.includes(brand)) {
+                state.shopPage.brands = state.shopPage.brands.filter(
+                    item => item !== brand
+                );
+                return
+            }
+
+            state.shopPage.brands.push(brand)
+        }
     },
 })
 

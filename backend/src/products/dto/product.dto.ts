@@ -1,5 +1,3 @@
-import { IsArray, IsIn } from 'class-validator';
-
 export class ProductResponse {
     id!: string
     name!: string
@@ -19,6 +17,7 @@ export class ProductDetailResponse {
 export class ProductPageResponse {
     page!: number
     categories?: Category[]
+    brands?: Brand[]
     limit!: number
     totalPage!: number
     total!: number
@@ -27,4 +26,19 @@ export class ProductPageResponse {
 
 export const CATEGORIES = ["earpods", "joysticks", "laptops", "phones", "playstations", "digital-watches"] as const
 
-export type Category = typeof CATEGORIES[number] 
+export type Category = typeof CATEGORIES[number]
+
+export const BRANDS = ['all'
+    , 'apple'
+    , 'samsung'
+    , 'sony'
+    , 'xiaomi'
+    , 'asus'
+    , 'lenovo'
+    , 'jbl'
+    , 'microsoft'
+    , 'dell'
+    , "hp"
+    , 'logitech']
+
+export type Brand = typeof BRANDS[number]

@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query, ParseIntPipe, Post, ParseArrayPipe, BadRequestException, DefaultValuePipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { CATEGORIES, Category } from './dto/product.dto';
+import { Brand, CATEGORIES, Category } from './dto/product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -31,6 +31,20 @@ export class ProductsController {
     categories: Category[],
   ) {
     return this.productsService.findPageByCategory(categories, page, limit);
+  }
+
+  @Get('page/brand')
+  findPageByBrand(
+    @Query('page', ParseIntPipe) page: number,
+    @Query('limit', ParseIntPipe) limit: number,
+    @Query(
+      'brands',
+      new DefaultValuePipe([]),
+      ParseArrayPipe,
+    )
+    brands: Brand[],
+  ) {
+    return this.productsService.findPageByBrand(brands, page, limit);
   }
 
   @Get(':id')

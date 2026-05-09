@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Category, ProductDetailResponse, ProductPageResponse, ProductResponse } from './dto/product.dto';
+import { Brand, Category, ProductDetailResponse, ProductPageResponse, ProductResponse } from './dto/product.dto';
 
 
 @Injectable()
@@ -112,6 +112,44 @@ export class ProductsService {
       limit: limit,
       total,
       categories: categories,
+      totalPage: Math.ceil(total / limit),
+      products: productsPage.map(product => this.mapProductsResponse(product))
+    }
+  }
+
+  async findPageByBrand(brands: Brand[] | [], page: number, limit: number = 12): Promise<ProductPageResponse> {
+    if (page <= 0 || limit <= 0) {
+      throw new BadRequestException('Страница или лимит должны быть положительные')
+    }
+
+    const where = brands.length === 0 ? {} : {
+      brand: {
+        slug: {
+          in: brands,
+        },
+      },
+    }
+
+    const [total, productsPage] = await Promise.all([
+      this.prismaService.product.count({ where }),
+      this.prismaService.product.findMany({
+        skip: limit * (page - 1),
+        take: limit,
+        where,
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          img: true,
+        },
+      })
+    ])
+
+    return {
+      page: page,
+      limit: limit,
+      total,
+      brands: brands,
       totalPage: Math.ceil(total / limit),
       products: productsPage.map(product => this.mapProductsResponse(product))
     }

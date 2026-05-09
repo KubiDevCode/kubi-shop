@@ -6,18 +6,20 @@ import { Container } from "../../shared/Container/Container";
 import { Header } from "../../widgets/Header/Header";
 import { PageHero } from "../../widgets/PageHero/PageHero";
 import { ShopProductList } from "../../widgets/ShopProductList/index";
-import { useGetPageProductsByCategoryQuery } from "../../shared/API/api";
+import { useGetPageProductsByBrandQuery, useGetPageProductsByCategoryQuery } from "../../shared/API/api";
 import { useAppSelector } from "../../app/providers/storeProvider/store";
-import { getShopPageCategories } from "./model/selectors/shopPageSelectors";
+import { getShopPageBrands, getShopPageCategories } from "./model/selectors/shopPageSelectors";
 
 
 export const ShopPage = () => {
     const categories = useAppSelector(getShopPageCategories)
+    const brands = useAppSelector(getShopPageBrands)
     const [page, setPage] = useState(1)
     const limit = 12
 
     // const { data, isLoading } = useGetPageProductsQuery({ page, limit })
-    const { data, isLoading } = useGetPageProductsByCategoryQuery({ page, limit, categories })
+    // const { data, isLoading } = useGetPageProductsByCategoryQuery({ page, limit, categories })
+    const { data, isLoading } = useGetPageProductsByBrandQuery({ page, limit, brands })
     return (
         <>
             <Header />
