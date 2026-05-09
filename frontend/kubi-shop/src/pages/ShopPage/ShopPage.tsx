@@ -10,7 +10,6 @@ import { useGetPageProductsByBrandQuery, useGetPageProductsByCategoryQuery } fro
 import { useAppSelector } from "../../app/providers/storeProvider/store";
 import { getShopPageBrands, getShopPageCategories } from "./model/selectors/shopPageSelectors";
 
-
 export const ShopPage = () => {
     const categories = useAppSelector(getShopPageCategories)
     const brands = useAppSelector(getShopPageBrands)

@@ -24,6 +24,7 @@ interface ShopFilter {
     filters: FilterItem[];
 }
 
+// ---------- исправленные фильтры ----------
 const shopFilters: ShopFilter[] = [
     {
         id: 1,
@@ -51,7 +52,7 @@ const shopFilters: ShopFilter[] = [
             { id: 5, title: 'Xiaomi', data: 'xiaomi' },
             { id: 6, title: 'Asus', data: 'asus' },
             { id: 7, title: 'Lenovo', data: 'lenovo' },
-            { id: 8, title: 'Jbl', data: 'jbl' },
+            { id: 8, title: 'JBL', data: 'jbl' }, // исправлен регистр
             { id: 9, title: 'Microsoft', data: 'microsoft' },
             { id: 10, title: 'Dell', data: 'dell' },
             { id: 11, title: 'HP', data: 'hp' },
@@ -67,7 +68,6 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
         category: (data) => {
             dispatch(shopPageActions.toggleCategory(data as CategoryNameType));
         },
-
         brand: (data) => {
             dispatch(shopPageActions.toggleBrands(data as BrandNameType));
         },
@@ -82,7 +82,12 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
                         title={section.title}
                         filters={section.filters}
                         onClick={(filter) => {
-                            filterActions[section.type](filter.data as CategoryNameType);
+                            // приводим тип по ключу filterType
+                            if (section.type === 'category') {
+                                filterActions.category(filter.data as CategoryNameType);
+                            } else {
+                                filterActions.brand(filter.data as BrandNameType);
+                            }
                         }}
                     />
                 ))}

@@ -53,7 +53,7 @@ export const shopApi = createApi({
                 }
 
                 return {
-                    url: '/products/page/category',
+                    url: '/products/page/brand',
                     params: {
                         brands,
                         page,
