@@ -65,17 +65,14 @@ export const FilterSection = (props: FilterSectionProps) => {
                             key={item.id}
                             className={classNames(
                                 'h-full w-full bg-transparent text-black transition duration-200 hover:text-accent text-start',
-                                {
-                                    'text-accent': item.data && isActive(item.data),
-                                },
+
+                                isActive(item.data) ? "text-accent" : "text-black"
+
                             )}
                             def={false}
                             onClick={() => {
-                                onClick?.(item);
-
-                                if (item.data) {
-                                    toggleFilter(item.data);
-                                }
+                                onClick(item);
+                                toggleFilter(item.data)
                             }}
                         >
                             {item.title}
