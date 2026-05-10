@@ -4,17 +4,18 @@ import type { CategoryNameType } from '../../entities/Category/types/categoryTyp
 import { useAppDispatch } from '../../app/providers/storeProvider/store';
 import { shopPageActions } from '../../pages/ShopPage/model/slice/shopPageSlice';
 import type { BrandNameType } from '../../entities/Brand/types/brandTypes';
+import type { TagNameType } from '../../entities/Tag/types/tagTypes';
 
 interface FilterProductsProps {
     className?: string;
 }
 
-type FilterType = 'category' | 'brand';
+type FilterType = 'category' | 'brand' | 'tag';
 
 interface FilterItem {
     id: number;
     title: string;
-    data: CategoryNameType | BrandNameType;
+    data: CategoryNameType | BrandNameType | TagNameType;
 }
 
 interface ShopFilter {
@@ -59,19 +60,50 @@ const shopFilters: ShopFilter[] = [
             { id: 12, title: 'Logitech', data: 'logitech' },
         ],
     },
+    {
+        id: 3,
+        title: 'TAGS',
+        type: 'tag',
+        filters: [
+            { id: 1, title: 'All', data: 'all' },
+            { id: 2, title: 'New', data: 'new' },
+            { id: 3, title: 'Popular', data: 'popular' },
+            { id: 4, title: 'Premium', data: 'premium' },
+            { id: 5, title: 'Budget', data: 'budget' },
+            { id: 6, title: 'Gaming', data: 'gaming' },
+            { id: 7, title: 'Wireless', data: 'wireless' },
+        ],
+    }
 ];
 
 export const FilterProducts = ({ className }: FilterProductsProps) => {
     const dispatch = useAppDispatch();
 
-    const filterActions: Record<FilterType, (data: CategoryNameType | BrandNameType) => void> = {
-        category: (data) => {
-            dispatch(shopPageActions.toggleCategory(data as CategoryNameType));
-        },
-        brand: (data) => {
-            dispatch(shopPageActions.toggleBrands(data as BrandNameType));
-        },
-    };
+    const filterProducts = (section: ShopFilter, filter: FilterItem) => {
+        const filterActions: Record<FilterType, (data: CategoryNameType | BrandNameType | TagNameType) => void> = {
+            category: (data) => {
+                dispatch(shopPageActions.toggleCategory(data as CategoryNameType));
+            },
+            brand: (data) => {
+                dispatch(shopPageActions.toggleBrands(data as BrandNameType));
+            },
+            tag: (data) => {
+                dispatch(shopPageActions.toggleTags(data as TagNameType));
+            },
+        };
+
+        if (section.type === 'category') {
+            filterActions.category(filter.data as CategoryNameType);
+        }
+
+        if (section.type === 'brand') {
+            filterActions.brand(filter.data as BrandNameType)
+        }
+
+        if (section.type === 'tag') {
+            filterActions.tag(filter.data as TagNameType)
+        }
+    }
 
     return (
         <section className={classNames(className)}>
@@ -81,14 +113,7 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
                         key={section.id}
                         title={section.title}
                         filters={section.filters}
-                        onClick={(filter) => {
-                            // приводим тип по ключу filterType
-                            if (section.type === 'category') {
-                                filterActions.category(filter.data as CategoryNameType);
-                            } else {
-                                filterActions.brand(filter.data as BrandNameType);
-                            }
-                        }}
+                        onClick={(filter) => filterProducts(section, filter)}
                     />
                 ))}
             </div>

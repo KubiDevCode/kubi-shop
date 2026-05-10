@@ -2,11 +2,14 @@ import classNames from "classnames";
 import line from "../../assets/image/line.png";
 import { Button } from "../../shared/Button/Button";
 import { useActiveFilters } from "../../shared/hooks/useActiveFilters";
+import type { BrandNameType } from "../Brand/types/brandTypes";
+import type { CategoryNameType } from "../Category/types/categoryTypes";
+import type { TagNameType } from "../Tag/types/tagTypes";
 
 interface FilterItem {
     id: number;
     title: string;
-    data: string;
+    data: CategoryNameType | BrandNameType | TagNameType;
 }
 
 interface FilterSectionProps {
@@ -33,7 +36,7 @@ export const FilterSection = (props: FilterSectionProps) => {
                 alt=""
             />
 
-            <div className="flex flex-col items-start gap-3.75">
+            <div className="grid grid-cols-2 items-start gap-3.75">
                 {filters.map(item => {
                     // const isActive = activeFilters.includes(item.data);
 
@@ -41,31 +44,13 @@ export const FilterSection = (props: FilterSectionProps) => {
                         <Button
                             key={item.id}
                             className={classNames(
-                                "bg-transparent p-0 text-[20px] font-light leading-none transition duration-200 hover:text-accent",
+                                "bg-transparent p-0 text-[20px] font-light leading-none transition duration-200 hover:text-accent text-start",
                                 isActive(item.data) ? "text-accent" : "text-black"
                             )}
                             def={false}
                             onClick={() => {
                                 onClick(item);
                                 toggleFilter(item.data)
-                                // setActiveFilters(prev => {
-                                //     if (item.data === 'all') {
-                                //         return ['all'];
-                                //     }
-
-                                //     if (prev.includes(item.data)) {
-                                //         const result = prev.filter(filter => filter !== item.data);
-                                //         if (result.length === 0) {
-                                //             return ['all']
-                                //         }
-
-                                //         return result
-                                //     }
-
-                                //     const result = prev.filter(filter => filter !== 'all')
-
-                                //     return [...result, item.data]
-                                // });
                             }}
                         >
                             {item.title}

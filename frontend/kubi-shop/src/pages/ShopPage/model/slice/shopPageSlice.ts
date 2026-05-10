@@ -61,22 +61,22 @@ export const shopPageSlice = createSlice({
             state.shopPage.brands.push(brand)
         },
 
-        toggleTags: (state, action: PayloadAction<BrandNameType>) => {
+        toggleTags: (state, action: PayloadAction<TagNameType>) => {
             const tag = action.payload
 
             if (tag === 'all') {
-                state.shopPage.brands = []
+                state.shopPage.tags = []
                 return
             }
 
-            if (state.shopPage.brands.includes(tag)) {
-                state.shopPage.brands = state.shopPage.brands.filter(
+            if (state.shopPage.tags.includes(tag)) {
+                state.shopPage.tags = state.shopPage.tags.filter(
                     item => item !== tag
                 );
                 return
             }
 
-            state.shopPage.brands.push(tag)
+            state.shopPage.tags.push(tag)
         }
     },
 })

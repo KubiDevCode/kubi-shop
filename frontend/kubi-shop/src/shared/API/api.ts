@@ -73,14 +73,22 @@ export const shopApi = createApi({
                 limit: number
             }
         >({
-            query: ({ brands, tags, categories, page, limit }) => {
+            query: ({ brands = ['all'], tags = ['all'], categories = ['all'], page, limit }) => {
 
                 return {
                     url: '/products/page/filters',
                     params: {
-                        brands,
-                        tags,
-                        categories,
+                        ...(brands.length > 0 && {
+                            brands: brands.join(','),
+                        }),
+
+                        ...(categories.length > 0 && {
+                            categories: categories.join(','),
+                        }),
+
+                        ...(tags.length > 0 && {
+                            tags: tags.join(','),
+                        }),
                         page,
                         limit,
                     },
