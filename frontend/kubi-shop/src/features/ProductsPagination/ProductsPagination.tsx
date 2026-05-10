@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { Button } from "../../shared/Button/Button";
+import { Button } from "../../shared/UI/Button/Button";
 
 interface ProductsPaginationProps {
     page: number

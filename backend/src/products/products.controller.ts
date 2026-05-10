@@ -69,8 +69,20 @@ export class ProductsController {
       ParseArrayPipe,
     )
     tags: Tag[],
+    @Query(
+      'minprice',
+      new DefaultValuePipe(0),
+      ParseIntPipe,
+    )
+    minprice: number,
+    @Query(
+      'maxprice',
+      new DefaultValuePipe(99999999),
+      ParseIntPipe,
+    )
+    maxprice: number,
   ) {
-    return this.productsService.findPageByFilters(brands, categories, tags, page, limit);
+    return this.productsService.findPageByFilters(brands, categories, tags, page, minprice, maxprice, limit);
   }
 
   @Get(':id')

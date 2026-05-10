@@ -161,6 +161,8 @@ export class ProductsService {
     categories: Category[] | [],
     tags: Tag[],
     page: number,
+    minPrice: number,
+    maxPrice: number,
     limit: number = 12) {
     if (page <= 0 || limit <= 0) {
       throw new BadRequestException('Страница или лимит должны быть положительные')
@@ -194,6 +196,18 @@ export class ProductsService {
       };
     }
 
+    if (minPrice) {
+      where.price = {
+        gte: minPrice
+      }
+    }
+
+    if (maxPrice) {
+      where.price = {
+        lte: maxPrice
+      }
+    }
+
     const [total, productsPage] = await Promise.all([
       this.prismaService.product.count({ where }),
       this.prismaService.product.findMany({
@@ -214,6 +228,8 @@ export class ProductsService {
       limit: limit,
       total,
       brands: brands,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
       categories: categories,
       tags: tags,
       totalPage: Math.ceil(total / limit),

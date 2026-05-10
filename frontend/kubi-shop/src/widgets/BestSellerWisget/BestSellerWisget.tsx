@@ -1,4 +1,4 @@
-import { Carousel } from "../../shared/Carousel/Carousel";
+import { Carousel } from "../../shared/UI/Carousel/Carousel";
 import line from "../../assets/image/line.png";
 
 import phonesImg from "../../shared/mockData/iphone.jpg";

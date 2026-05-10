@@ -3,7 +3,7 @@ import line from "../../../assets/image/line.png";
 
 import { ItemCard } from "../../../entities/ItemCard/ItemCard";
 import { useGetAllCategoryQuery } from "../../../shared/API/api";
-import { Skeleton } from "../../../shared/Skeletons/Skeletons";
+import { Skeleton } from "../../../shared/UI/Skeletons/Skeletons";
 
 
 export const CategoriesWidget = () => {

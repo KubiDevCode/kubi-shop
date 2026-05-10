@@ -1,6 +1,6 @@
 import { ItemCard } from "../../../entities/ItemCard/ItemCard";
-import { Skeleton } from "../../../shared/Skeletons/Skeletons";
-import type { ProductPageType} from "../types/productType";
+import { Skeleton } from "../../../shared/UI/Skeletons/Skeletons";
+import type { ProductPageType } from "../types/productType";
 
 interface ShopProductListProps {
     limit: number

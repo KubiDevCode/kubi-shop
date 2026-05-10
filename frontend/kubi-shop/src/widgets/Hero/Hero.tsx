@@ -1,8 +1,9 @@
 import classNames from "classnames";
 import { Container } from "../../shared/Container/Container";
-import { Carousel } from "../../shared/Carousel/Carousel";
+import { Carousel } from "../../shared/UI/Carousel/Carousel";
 import goproImage from '../../shared/mockData/hero-mock.jpg'
-import { Button } from "../../shared/Button/Button";
+import { Button } from "../../shared/UI/Button/Button";
+
 
 interface HeroProps {
     className?: string;
