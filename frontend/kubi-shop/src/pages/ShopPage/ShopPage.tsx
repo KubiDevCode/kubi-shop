@@ -6,19 +6,20 @@ import { Container } from "../../shared/Container/Container";
 import { Header } from "../../widgets/Header/Header";
 import { PageHero } from "../../widgets/PageHero/PageHero";
 import { ShopProductList } from "../../widgets/ShopProductList/index";
-import { useGetPageProductsByBrandQuery, useGetPageProductsByCategoryQuery } from "../../shared/API/api";
+import { useGetPageProductsByBrandQuery, useGetPageProductsByCategoryQuery, useGetPageProductsByFiltersQuery } from "../../shared/API/api";
 import { useAppSelector } from "../../app/providers/storeProvider/store";
-import { getShopPageBrands, getShopPageCategories } from "./model/selectors/shopPageSelectors";
+import { getShopPageBrands, getShopPageCategories, getShopPageTags } from "./model/selectors/shopPageSelectors";
 
 export const ShopPage = () => {
     const categories = useAppSelector(getShopPageCategories)
+    const tags = useAppSelector(getShopPageTags)
     const brands = useAppSelector(getShopPageBrands)
     const [page, setPage] = useState(1)
     const limit = 12
 
     // const { data, isLoading } = useGetPageProductsQuery({ page, limit })
     // const { data, isLoading } = useGetPageProductsByCategoryQuery({ page, limit, categories })
-    const { data, isLoading } = useGetPageProductsByBrandQuery({ page, limit, brands })
+    const { data, isLoading } = useGetPageProductsByFiltersQuery({ page, tags, categories, limit, brands })
     return (
         <>
             <Header />

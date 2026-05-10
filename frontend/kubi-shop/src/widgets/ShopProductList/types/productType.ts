@@ -1,5 +1,6 @@
 import type { BrandNameType } from "../../../entities/Brand/types/brandTypes"
 import type { CategoryNameType } from "../../../entities/Category/types/categoryTypes"
+import type { TagNameType } from "../../../entities/Tag/types/tagTypes"
 
 export interface ProductType {
     id: string
@@ -13,6 +14,7 @@ export interface ProductPageType {
     limit: number
     categories?: CategoryNameType[]
     brands?: BrandNameType[]
+    tags?: TagNameType[]
     totalPage: number
     total: number
     products: ProductType[]

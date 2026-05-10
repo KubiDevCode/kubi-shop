@@ -168,34 +168,30 @@ export class ProductsService {
 
     let where: Prisma.ProductWhereInput = {}
 
-    switch (true) {
-      case brands.length > 0:
-        where.brand = {
-          slug: {
-            in: brands,
-          },
-        }
-        break;
-      case categories.length > 0:
-        where.category = {
-          slug: {
-            in: categories,
-          },
-        }
-        break;
-      case tags.length > 0:
-        where.tags = {
-          some: {
-            slug: {
-              in: tags,
-            },
-          }
-        }
-        break;
+    if (brands.length > 0) {
+      where.brand = {
+        slug: {
+          in: brands,
+        },
+      };
+    }
 
-      default:
-        where = {}
-        break;
+    if (categories.length > 0) {
+      where.category = {
+        slug: {
+          in: categories,
+        },
+      };
+    }
+
+    if (tags.length > 0) {
+      where.tags = {
+        some: {
+          slug: {
+            in: tags,
+          },
+        },
+      };
     }
 
     const [total, productsPage] = await Promise.all([

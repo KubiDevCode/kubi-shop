@@ -3,6 +3,7 @@ import type { CategoryType } from '../../widgets/CategoriesWidget/index'
 import type { ProductPageType } from '../../widgets/ShopProductList/types/productType'
 import type { CategoryNameType } from '../../entities/Category/types/categoryTypes'
 import type { BrandNameType } from '../../entities/Brand/types/brandTypes'
+import type { TagNameType } from '../../entities/Tag/types/tagTypes'
 
 
 // Define a service using a base URL and expected endpoints
@@ -62,6 +63,30 @@ export const shopApi = createApi({
                 };
             },
         }),
+        getPageProductsByFilters: build.query<
+            ProductPageType,
+            {
+                brands?: BrandNameType[],
+                tags?: TagNameType[],
+                categories?: CategoryNameType[],
+                page: number,
+                limit: number
+            }
+        >({
+            query: ({ brands, tags, categories, page, limit }) => {
+
+                return {
+                    url: '/products/page/filters',
+                    params: {
+                        brands,
+                        tags,
+                        categories,
+                        page,
+                        limit,
+                    },
+                };
+            },
+        }),
     }),
 })
 
@@ -72,4 +97,5 @@ export const {
     useGetPageProductsQuery,
     useGetPageProductsByCategoryQuery,
     useGetPageProductsByBrandQuery,
+    useGetPageProductsByFiltersQuery,
 } = shopApi

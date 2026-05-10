@@ -2,18 +2,21 @@ import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { CategoryNameType } from '../../../../entities/Category/types/categoryTypes'
 import type { BrandNameType } from '../../../../entities/Brand/types/brandTypes'
+import type { TagNameType } from '../../../../entities/Tag/types/tagTypes'
 
 export interface ShopPageState {
     shopPage: {
         categories: CategoryNameType[]
         brands: BrandNameType[]
+        tags: TagNameType[]
     }
 }
 
 const initialState: ShopPageState = {
     shopPage: {
         categories: [],
-        brands: []
+        brands: [],
+        tags: []
     }
 }
 
@@ -56,6 +59,24 @@ export const shopPageSlice = createSlice({
             }
 
             state.shopPage.brands.push(brand)
+        },
+
+        toggleTags: (state, action: PayloadAction<BrandNameType>) => {
+            const tag = action.payload
+
+            if (tag === 'all') {
+                state.shopPage.brands = []
+                return
+            }
+
+            if (state.shopPage.brands.includes(tag)) {
+                state.shopPage.brands = state.shopPage.brands.filter(
+                    item => item !== tag
+                );
+                return
+            }
+
+            state.shopPage.brands.push(tag)
         }
     },
 })
