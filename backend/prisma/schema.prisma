@@ -63,8 +63,9 @@ model Product {
   categoryId String   @map("category_id")
   category   Category @relation(fields: [categoryId], references: [id])
 
-  brandId String @map("brand_id")
-  brand   Brand  @relation(fields: [brandId], references: [id])
+  brandId String  @map("brand_id")
+  brand   Brand   @relation(fields: [brandId], references: [id])
+  tags    Tags[]
 
   @@map("products")
 }
@@ -81,6 +82,7 @@ model Category {
   products Product[]
 
   brands Brand[]
+  tags   Tags[]
 
   @@map("categories")
 }
@@ -99,4 +101,19 @@ model Brand {
   categories Category[]
 
   @@map("brands")
+}
+
+model Tags {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  name String @unique
+  slug String @unique
+
+  products Product[]
+
+  categories Category[]
+
+  @@map("tags")
 }

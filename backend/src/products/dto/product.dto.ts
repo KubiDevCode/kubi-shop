@@ -42,3 +42,14 @@ export const BRANDS = ['all'
     , 'logitech']
 
 export type Brand = typeof BRANDS[number]
+
+export const TAGS = ['all',
+    'new',
+    'popular',
+    'premium',
+    'budget',
+    'gaming',
+    'wireless'
+]
+
+export type Tag = typeof TAGS[number]

@@ -24,9 +24,22 @@ type CategoryKey =
     | 'earpods'
     | 'laptops';
 
+type TagSlug =
+    | 'new'
+    | 'popular'
+    | 'premium'
+    | 'budget'
+    | 'gaming'
+    | 'wireless';
+
 type SeedBrand = {
     name: string;
     slug: string;
+};
+
+type SeedTag = {
+    name: string;
+    slug: TagSlug;
 };
 
 type SeedProduct = {
@@ -34,6 +47,25 @@ type SeedProduct = {
     price: number;
     categoryKey: CategoryKey;
     brandSlug: string;
+    tagSlugs: TagSlug[];
+};
+
+const tags: SeedTag[] = [
+    { name: 'New', slug: 'new' },
+    { name: 'Popular', slug: 'popular' },
+    { name: 'Premium', slug: 'premium' },
+    { name: 'Budget', slug: 'budget' },
+    { name: 'Gaming', slug: 'gaming' },
+    { name: 'Wireless', slug: 'wireless' },
+];
+
+const categoryTags: Record<CategoryKey, TagSlug[]> = {
+    phones: ['new', 'popular', 'premium', 'budget'],
+    playstation: ['gaming', 'popular', 'new', 'wireless'],
+    watches: ['new', 'popular', 'premium', 'budget'],
+    joysticks: ['gaming', 'wireless', 'budget', 'premium'],
+    earpods: ['wireless', 'popular', 'premium', 'budget'],
+    laptops: ['new', 'popular', 'premium', 'gaming'],
 };
 
 const brands: SeedBrand[] = [
@@ -51,45 +83,45 @@ const brands: SeedBrand[] = [
 ];
 
 const products: SeedProduct[] = [
-    { name: 'iPhone 15 Pro 256GB', price: 1199, categoryKey: 'phones', brandSlug: 'apple' },
-    { name: 'iPhone 15 128GB', price: 899, categoryKey: 'phones', brandSlug: 'apple' },
-    { name: 'Samsung Galaxy S24 Ultra', price: 1299, categoryKey: 'phones', brandSlug: 'samsung' },
-    { name: 'Samsung Galaxy A55', price: 449, categoryKey: 'phones', brandSlug: 'samsung' },
-    { name: 'Xiaomi 14 Pro', price: 799, categoryKey: 'phones', brandSlug: 'xiaomi' },
-    { name: 'Xiaomi Redmi Note 13 Pro', price: 329, categoryKey: 'phones', brandSlug: 'xiaomi' },
+    { name: 'iPhone 15 Pro 256GB', price: 1199, categoryKey: 'phones', brandSlug: 'apple', tagSlugs: ['new', 'premium'] },
+    { name: 'iPhone 15 128GB', price: 899, categoryKey: 'phones', brandSlug: 'apple', tagSlugs: ['new', 'popular'] },
+    { name: 'Samsung Galaxy S24 Ultra', price: 1299, categoryKey: 'phones', brandSlug: 'samsung', tagSlugs: ['new', 'premium'] },
+    { name: 'Samsung Galaxy A55', price: 449, categoryKey: 'phones', brandSlug: 'samsung', tagSlugs: ['budget', 'popular'] },
+    { name: 'Xiaomi 14 Pro', price: 799, categoryKey: 'phones', brandSlug: 'xiaomi', tagSlugs: ['premium'] },
+    { name: 'Xiaomi Redmi Note 13 Pro', price: 329, categoryKey: 'phones', brandSlug: 'xiaomi', tagSlugs: ['budget', 'popular'] },
 
-    { name: 'MacBook Air 13 M3', price: 1099, categoryKey: 'laptops', brandSlug: 'apple' },
-    { name: 'MacBook Pro 14 M3 Pro', price: 1999, categoryKey: 'laptops', brandSlug: 'apple' },
-    { name: 'ASUS ROG Zephyrus G14', price: 1799, categoryKey: 'laptops', brandSlug: 'asus' },
-    { name: 'ASUS Zenbook 14 OLED', price: 999, categoryKey: 'laptops', brandSlug: 'asus' },
-    { name: 'Lenovo Legion 5 Pro', price: 1399, categoryKey: 'laptops', brandSlug: 'lenovo' },
-    { name: 'Lenovo ThinkPad X1 Carbon', price: 1699, categoryKey: 'laptops', brandSlug: 'lenovo' },
-    { name: 'Dell XPS 13 Plus', price: 1399, categoryKey: 'laptops', brandSlug: 'dell' },
-    { name: 'HP Spectre x360', price: 1249, categoryKey: 'laptops', brandSlug: 'hp' },
+    { name: 'MacBook Air 13 M3', price: 1099, categoryKey: 'laptops', brandSlug: 'apple', tagSlugs: ['new', 'premium'] },
+    { name: 'MacBook Pro 14 M3 Pro', price: 1999, categoryKey: 'laptops', brandSlug: 'apple', tagSlugs: ['premium'] },
+    { name: 'ASUS ROG Zephyrus G14', price: 1799, categoryKey: 'laptops', brandSlug: 'asus', tagSlugs: ['gaming', 'premium'] },
+    { name: 'ASUS Zenbook 14 OLED', price: 999, categoryKey: 'laptops', brandSlug: 'asus', tagSlugs: ['premium', 'popular'] },
+    { name: 'Lenovo Legion 5 Pro', price: 1399, categoryKey: 'laptops', brandSlug: 'lenovo', tagSlugs: ['gaming', 'popular'] },
+    { name: 'Lenovo ThinkPad X1 Carbon', price: 1699, categoryKey: 'laptops', brandSlug: 'lenovo', tagSlugs: ['premium'] },
+    { name: 'Dell XPS 13 Plus', price: 1399, categoryKey: 'laptops', brandSlug: 'dell', tagSlugs: ['premium'] },
+    { name: 'HP Spectre x360', price: 1249, categoryKey: 'laptops', brandSlug: 'hp', tagSlugs: ['premium', 'popular'] },
 
-    { name: 'AirPods Pro 2', price: 249, categoryKey: 'earpods', brandSlug: 'apple' },
-    { name: 'AirPods 3', price: 179, categoryKey: 'earpods', brandSlug: 'apple' },
-    { name: 'Sony WF-1000XM5', price: 299, categoryKey: 'earpods', brandSlug: 'sony' },
-    { name: 'Samsung Galaxy Buds 2 Pro', price: 199, categoryKey: 'earpods', brandSlug: 'samsung' },
-    { name: 'JBL Live Pro 2', price: 149, categoryKey: 'earpods', brandSlug: 'jbl' },
-    { name: 'JBL Tune Beam', price: 99, categoryKey: 'earpods', brandSlug: 'jbl' },
+    { name: 'AirPods Pro 2', price: 249, categoryKey: 'earpods', brandSlug: 'apple', tagSlugs: ['wireless', 'premium', 'popular'] },
+    { name: 'AirPods 3', price: 179, categoryKey: 'earpods', brandSlug: 'apple', tagSlugs: ['wireless', 'popular'] },
+    { name: 'Sony WF-1000XM5', price: 299, categoryKey: 'earpods', brandSlug: 'sony', tagSlugs: ['wireless', 'premium'] },
+    { name: 'Samsung Galaxy Buds 2 Pro', price: 199, categoryKey: 'earpods', brandSlug: 'samsung', tagSlugs: ['wireless', 'popular'] },
+    { name: 'JBL Live Pro 2', price: 149, categoryKey: 'earpods', brandSlug: 'jbl', tagSlugs: ['wireless', 'budget'] },
+    { name: 'JBL Tune Beam', price: 99, categoryKey: 'earpods', brandSlug: 'jbl', tagSlugs: ['wireless', 'budget'] },
 
-    { name: 'DualSense Wireless Controller White', price: 79, categoryKey: 'joysticks', brandSlug: 'sony' },
-    { name: 'DualSense Wireless Controller Black', price: 79, categoryKey: 'joysticks', brandSlug: 'sony' },
-    { name: 'Xbox Wireless Controller Carbon Black', price: 69, categoryKey: 'joysticks', brandSlug: 'microsoft' },
-    { name: 'Xbox Elite Wireless Controller Series 2', price: 179, categoryKey: 'joysticks', brandSlug: 'microsoft' },
-    { name: 'Logitech F710 Wireless Gamepad', price: 49, categoryKey: 'joysticks', brandSlug: 'logitech' },
+    { name: 'DualSense Wireless Controller White', price: 79, categoryKey: 'joysticks', brandSlug: 'sony', tagSlugs: ['wireless', 'gaming'] },
+    { name: 'DualSense Wireless Controller Black', price: 79, categoryKey: 'joysticks', brandSlug: 'sony', tagSlugs: ['wireless', 'gaming'] },
+    { name: 'Xbox Wireless Controller Carbon Black', price: 69, categoryKey: 'joysticks', brandSlug: 'microsoft', tagSlugs: ['wireless', 'gaming'] },
+    { name: 'Xbox Elite Wireless Controller Series 2', price: 179, categoryKey: 'joysticks', brandSlug: 'microsoft', tagSlugs: ['wireless', 'gaming', 'premium'] },
+    { name: 'Logitech F710 Wireless Gamepad', price: 49, categoryKey: 'joysticks', brandSlug: 'logitech', tagSlugs: ['wireless', 'gaming', 'budget'] },
 
-    { name: 'PlayStation 5 Slim', price: 499, categoryKey: 'playstation', brandSlug: 'sony' },
-    { name: 'PlayStation 5 Digital Edition', price: 449, categoryKey: 'playstation', brandSlug: 'sony' },
-    { name: 'PlayStation Portal', price: 219, categoryKey: 'playstation', brandSlug: 'sony' },
-    { name: 'PlayStation Pulse Elite Headset', price: 149, categoryKey: 'playstation', brandSlug: 'sony' },
+    { name: 'PlayStation 5 Slim', price: 499, categoryKey: 'playstation', brandSlug: 'sony', tagSlugs: ['gaming', 'popular'] },
+    { name: 'PlayStation 5 Digital Edition', price: 449, categoryKey: 'playstation', brandSlug: 'sony', tagSlugs: ['gaming', 'popular'] },
+    { name: 'PlayStation Portal', price: 219, categoryKey: 'playstation', brandSlug: 'sony', tagSlugs: ['gaming', 'new'] },
+    { name: 'PlayStation Pulse Elite Headset', price: 149, categoryKey: 'playstation', brandSlug: 'sony', tagSlugs: ['gaming', 'wireless'] },
 
-    { name: 'Apple Watch Series 9', price: 399, categoryKey: 'watches', brandSlug: 'apple' },
-    { name: 'Apple Watch Ultra 2', price: 799, categoryKey: 'watches', brandSlug: 'apple' },
-    { name: 'Samsung Galaxy Watch 6', price: 299, categoryKey: 'watches', brandSlug: 'samsung' },
-    { name: 'Samsung Galaxy Watch 6 Classic', price: 399, categoryKey: 'watches', brandSlug: 'samsung' },
-    { name: 'Xiaomi Watch S3', price: 149, categoryKey: 'watches', brandSlug: 'xiaomi' },
+    { name: 'Apple Watch Series 9', price: 399, categoryKey: 'watches', brandSlug: 'apple', tagSlugs: ['new', 'popular'] },
+    { name: 'Apple Watch Ultra 2', price: 799, categoryKey: 'watches', brandSlug: 'apple', tagSlugs: ['premium', 'popular'] },
+    { name: 'Samsung Galaxy Watch 6', price: 299, categoryKey: 'watches', brandSlug: 'samsung', tagSlugs: ['popular'] },
+    { name: 'Samsung Galaxy Watch 6 Classic', price: 399, categoryKey: 'watches', brandSlug: 'samsung', tagSlugs: ['premium', 'popular'] },
+    { name: 'Xiaomi Watch S3', price: 149, categoryKey: 'watches', brandSlug: 'xiaomi', tagSlugs: ['budget', 'popular'] },
 ];
 
 function normalize(value: string): string {
@@ -210,12 +242,28 @@ async function upsertBrand(brand: SeedBrand) {
     });
 }
 
+async function upsertTag(tag: SeedTag) {
+    return prisma.tags.upsert({
+        where: {
+            slug: tag.slug,
+        },
+        update: {
+            name: tag.name,
+        },
+        create: {
+            name: tag.name,
+            slug: tag.slug,
+        },
+    });
+}
+
 async function upsertProduct(data: {
     name: string;
     price: number;
     categoryId: string;
     brandId: string;
     brandName: string;
+    tagSlugs: TagSlug[];
 }) {
     const existedProduct = await prisma.product.findFirst({
         where: {
@@ -234,17 +282,29 @@ async function upsertProduct(data: {
         brandId: data.brandId,
     };
 
+    const productTags = data.tagSlugs.map((slug) => ({ slug }));
+
     if (existedProduct) {
         return prisma.product.update({
             where: {
                 id: existedProduct.id,
             },
-            data: productData,
+            data: {
+                ...productData,
+                tags: {
+                    set: productTags,
+                },
+            },
         });
     }
 
     return prisma.product.create({
-        data: productData,
+        data: {
+            ...productData,
+            tags: {
+                connect: productTags,
+            },
+        },
     });
 }
 
@@ -283,6 +343,19 @@ async function connectBrandToCategory(categoryId: string, brandId: string) {
     });
 }
 
+async function connectTagsToCategory(categoryId: string, tagSlugs: TagSlug[]) {
+    await prisma.category.update({
+        where: {
+            id: categoryId,
+        },
+        data: {
+            tags: {
+                set: tagSlugs.map((slug) => ({ slug })),
+            },
+        },
+    });
+}
+
 async function main() {
     console.log('Start seed products...');
 
@@ -300,6 +373,20 @@ async function main() {
     for (const categoryKey of categoryKeys) {
         const categoryId = await findCategoryId(categoryKey);
         categoryIdByKey.set(categoryKey, categoryId);
+    }
+
+    for (const tag of tags) {
+        await upsertTag(tag);
+    }
+
+    for (const categoryKey of categoryKeys) {
+        const categoryId = categoryIdByKey.get(categoryKey);
+
+        if (!categoryId) {
+            throw new Error(`Category id not found for key: ${categoryKey}`);
+        }
+
+        await connectTagsToCategory(categoryId, categoryTags[categoryKey]);
     }
 
     const brandBySlug = new Map<string, Awaited<ReturnType<typeof upsertBrand>>>();
@@ -327,11 +414,13 @@ async function main() {
             categoryId,
             brandId: brand.id,
             brandName: brand.name,
+            tagSlugs: product.tagSlugs,
         });
 
         await connectBrandToCategory(categoryId, brand.id);
     }
 
+    console.log(`Seeded tags: ${tags.length}`);
     console.log(`Seeded products: ${products.length}`);
     console.log('Seed products finished.');
 }

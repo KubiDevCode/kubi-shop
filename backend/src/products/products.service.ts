@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Brand, Category, ProductDetailResponse, ProductPageResponse, ProductResponse } from './dto/product.dto';
+import { Brand, Category, ProductDetailResponse, ProductPageResponse, ProductResponse, Tag } from './dto/product.dto';
+import { Prisma } from '@prisma/client';
 
 
 @Injectable()
@@ -150,6 +151,75 @@ export class ProductsService {
       limit: limit,
       total,
       brands: brands,
+      totalPage: Math.ceil(total / limit),
+      products: productsPage.map(product => this.mapProductsResponse(product))
+    }
+  }
+
+  async findPageByFilters(
+    brands: Brand[] | [],
+    categories: Category[] | [],
+    tags: Tag[],
+    page: number,
+    limit: number = 12) {
+    if (page <= 0 || limit <= 0) {
+      throw new BadRequestException('Страница или лимит должны быть положительные')
+    }
+
+    let where: Prisma.ProductWhereInput = {}
+
+    switch (true) {
+      case brands.length > 0:
+        where.brand = {
+          slug: {
+            in: brands,
+          },
+        }
+        break;
+      case categories.length > 0:
+        where.category = {
+          slug: {
+            in: categories,
+          },
+        }
+        break;
+      case tags.length > 0:
+        where.tags = {
+          some: {
+            slug: {
+              in: tags,
+            },
+          }
+        }
+        break;
+
+      default:
+        where = {}
+        break;
+    }
+
+    const [total, productsPage] = await Promise.all([
+      this.prismaService.product.count({ where }),
+      this.prismaService.product.findMany({
+        skip: limit * (page - 1),
+        take: limit,
+        where,
+        select: {
+          id: true,
+          name: true,
+          price: true,
+          img: true,
+        },
+      })
+    ])
+
+    return {
+      page: page,
+      limit: limit,
+      total,
+      brands: brands,
+      categories: categories,
+      tags: tags,
       totalPage: Math.ceil(total / limit),
       products: productsPage.map(product => this.mapProductsResponse(product))
     }
