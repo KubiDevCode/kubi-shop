@@ -1,44 +1,39 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 
 interface InputProps {
     className?: string;
-    placeholder: string
-    defValue?: string
-    onChange: () => void
+    placeholder: string;
+    defValue?: string;
+    onChange?: (value: string) => void;
 }
 
 export const Input = (props: InputProps) => {
     const {
         className,
         placeholder,
-        defValue,
+        defValue = '',
         onChange,
-    } = props
+    } = props;
 
     const [value, setValue] = useState(defValue)
 
-    const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value)
-        onChange()
-    }
+        onChange?.(e.target.value);
+    };
 
     return (
         <input
-            placeholder={placeholder}
+            className={classNames(
+                'h-11 w-full rounded-full border border-black/15 bg-transparent px-5 text-sm font-light uppercase tracking-[0.08em] text-black outline-none transition placeholder:text-black/35 focus:border-accent',
+                className,
+            )}
+            type="number"
             value={value}
+            placeholder={placeholder}
+            defaultValue={defValue}
             onChange={onInputChange}
-            className="
-                w-full bg-transparent
-                border-b border-[#d9d9d9]
-                pb-2
-                text-[24px] font-light text-[#4a4a4a]
-                placeholder:text-[#b5b5b5]
-                outline-none
-                transition duration-200
-                focus:border-black
-                focus:placeholder:text-[#d0d0d0]
-             "
         />
     );
 };

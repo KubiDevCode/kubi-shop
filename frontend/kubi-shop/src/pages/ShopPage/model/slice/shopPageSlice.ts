@@ -9,6 +9,8 @@ export interface ShopPageState {
         categories: CategoryNameType[]
         brands: BrandNameType[]
         tags: TagNameType[]
+        minprice: number
+        maxprice: number
     }
 }
 
@@ -16,7 +18,9 @@ const initialState: ShopPageState = {
     shopPage: {
         categories: [],
         brands: [],
-        tags: []
+        tags: [],
+        minprice: 0,
+        maxprice: 999999,
     }
 }
 
@@ -77,7 +81,15 @@ export const shopPageSlice = createSlice({
             }
 
             state.shopPage.tags.push(tag)
-        }
+        },
+
+        setMinPrice: (state, action: PayloadAction<number>) => {
+            state.shopPage.minprice = action.payload;
+        },
+
+        setMaxPrice: (state, action: PayloadAction<number>) => {
+            state.shopPage.maxprice = action.payload;
+        },
     },
 })
 

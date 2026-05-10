@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { FilterSection, type InputFiltersItem } from '../../entities/FilterSection/FilterSection';
+import { FilterSection } from '../../entities/FilterSection/FilterSection';
 import type { CategoryNameType } from '../../entities/Category/types/categoryTypes';
 import { useAppDispatch } from '../../app/providers/storeProvider/store';
 import { shopPageActions } from '../../pages/ShopPage/model/slice/shopPageSlice';
@@ -28,13 +28,14 @@ interface ShopFilter {
 interface InputFilterItem {
     id: number
     placeholder: string
+    title: string
     defValue?: string
+    onChange: (value: string) => void
 }
 
 interface InputShopFilter {
     id: number;
     title: string;
-    type: FilterType;
     filters: InputFilterItem[];
 }
 
@@ -65,7 +66,7 @@ const shopFilters: ShopFilter[] = [
             { id: 5, title: 'Xiaomi', data: 'xiaomi' },
             { id: 6, title: 'Asus', data: 'asus' },
             { id: 7, title: 'Lenovo', data: 'lenovo' },
-            { id: 8, title: 'JBL', data: 'jbl' }, // исправлен регистр
+            { id: 8, title: 'JBL', data: 'jbl' },
             { id: 9, title: 'Microsoft', data: 'microsoft' },
             { id: 10, title: 'Dell', data: 'dell' },
             { id: 11, title: 'HP', data: 'hp' },
@@ -88,17 +89,7 @@ const shopFilters: ShopFilter[] = [
     }
 ];
 
-const shopPriceFilter: InputShopFilter = [
-    {
-        id: 1,
-        title: 'PRICE',
-        type: 'price',
-        filters: [
-            { id: 1, placeholder: 'MIN PRICE' },
-            { id: 2, placeholder: 'MAX PRICE' },
-        ],
-    }
-]
+
 
 export const FilterProducts = ({ className }: FilterProductsProps) => {
     const dispatch = useAppDispatch();
@@ -107,6 +98,23 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
         category: shopPageActions.toggleCategory,
         brand: shopPageActions.toggleBrands,
         tag: shopPageActions.toggleTags,
+    };
+
+    const shopPriceFilter: InputShopFilter = {
+        id: 4,
+        title: 'PRICE',
+        filters: [
+            {
+                id: 1, title: 'Min price', placeholder: 'Min price', onChange: (value: string) => {
+                    dispatch(shopPageActions.setMinPrice(Number(value) || 0));
+                }
+            },
+            {
+                id: 2, title: 'Max price', placeholder: 'Max price', onChange: (value: string) => {
+                    dispatch(shopPageActions.setMaxPrice(Number(value) || 99999999));
+                }
+            },
+        ],
     };
 
     const filterProducts = (section: ShopFilter, filter: FilterItem) => {
@@ -128,6 +136,8 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
                 <FilterSection
                     title={shopPriceFilter.title}
                     filters={shopPriceFilter.filters}
+                    type="input"
+                    onInputChange={shopPriceFilter.onChange}
                 />
             </div>
         </section>

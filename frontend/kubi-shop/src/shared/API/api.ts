@@ -66,14 +66,16 @@ export const shopApi = createApi({
         getPageProductsByFilters: build.query<
             ProductPageType,
             {
-                brands?: BrandNameType[],
-                tags?: TagNameType[],
-                categories?: CategoryNameType[],
-                page: number,
-                limit: number
+                brands?: BrandNameType[];
+                tags?: TagNameType[];
+                categories?: CategoryNameType[];
+                minprice: number;
+                maxprice: number;
+                page: number;
+                limit: number;
             }
         >({
-            query: ({ brands = ['all'], tags = ['all'], categories = ['all'], page, limit }) => {
+            query: ({ brands = ['all'], tags = ['all'], categories = ['all'], minprice, maxprice, page, limit }) => {
 
                 return {
                     url: '/products/page/filters',
@@ -89,6 +91,8 @@ export const shopApi = createApi({
                         ...(tags.length > 0 && {
                             tags: tags.join(','),
                         }),
+                        minprice,
+                        maxprice,
                         page,
                         limit,
                     },

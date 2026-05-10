@@ -1,39 +1,27 @@
-import classNames from "classnames";
-import line from "../../assets/image/line.png";
+import classNames from 'classnames';
+import line from '../../assets/image/line.png';
 
-import { useActiveFilters } from "../../shared/hooks/useActiveFilters";
-import type { BrandNameType } from "../Brand/types/brandTypes";
-import type { CategoryNameType } from "../Category/types/categoryTypes";
-import type { TagNameType } from "../Tag/types/tagTypes";
-import { Button } from "../../shared/UI/Button/Button";
-import { Input } from "../../shared/UI/Input/Input";
+import { Input } from '../../shared/UI/Input/Input';
+import { useActiveFilters } from '../../shared/hooks/useActiveFilters';
+import type { BrandNameType } from '../Brand/types/brandTypes';
+import type { CategoryNameType } from '../Category/types/categoryTypes';
+import type { TagNameType } from '../Tag/types/tagTypes';
+import { Button } from '../../shared/UI/Button/Button';
 
 interface FilterItem {
     id: number;
     title: string;
-    data: CategoryNameType | BrandNameType | TagNameType;
-}
-
-interface InputFiltersItem {
-    id: number
-    title: string;
-    placeholder: string
-    defValue?: string
-}
-
-interface InputeFilterItem {
-    id: number
-    placeholder: string
+    data?: CategoryNameType | BrandNameType | TagNameType;
+    placeholder?: string;
 }
 
 interface FilterSectionProps {
     className?: string;
     title: string;
-    filters?: FilterItem[];
+    filters: FilterItem[];
+    type?: 'button' | 'input';
     onClick?: (data: FilterItem) => void;
-    onChange?: () => void
-    type: 'button' | 'input'
-    inputFilters?: InputeFilterItem[]
+    onInputChange?: (id: number, value: string) => void;
 }
 
 export const FilterSection = (props: FilterSectionProps) => {
@@ -41,77 +29,60 @@ export const FilterSection = (props: FilterSectionProps) => {
         className,
         title,
         filters,
+        type = 'button',
         onClick,
-        type,
-        inputFilters,
-        onChange,
+        onInputChange,
     } = props;
 
-    const { isActive, toggleFilter } = useActiveFilters()
+    const { isActive, toggleFilter } = useActiveFilters();
 
-    if (type === 'button') {
-        return (
-            <div className={classNames(className, "w-77.5")}>
-                <p className="text-[36px] font-light uppercase leading-none tracking-[0.08em] text-black">
-                    {title}
-                </p>
+    return (
+        <div className={classNames(className, 'w-77.5')}>
+            <p className="text-[36px] font-light uppercase leading-none tracking-[0.08em] text-black">
+                {title}
+            </p>
 
-                <img
-                    className="my-5 h-6 w-full object-cover"
-                    src={line}
-                    alt=""
-                />
+            <img
+                className="my-5 h-6 w-full object-cover"
+                src={line}
+                alt=""
+            />
 
-                <div className="grid grid-cols-2 items-start gap-3.75">
-                    {filters?.map(item => {
-                        return (
-                            <Button
-                                key={item.id}
-                                className={classNames(
-                                    "bg-transparent p-0 text-[20px] font-light leading-none transition duration-200 hover:text-accent text-start",
-                                    isActive(item.data) ? "text-accent" : "text-black"
-                                )}
-                                def={false}
-                                onClick={() => {
-                                    onClick(item);
-                                    toggleFilter(item.data)
-                                }}
-                            >
-                                {item.title}
-                            </Button>
-                        );
-                    })}
-                </div>
-            </div>
-        );
-    }
-
-    if (type === 'input') {
-        return (
-            <div className={classNames(className, "w-77.5")}>
-                <p className="text-[36px] font-light uppercase leading-none tracking-[0.08em] text-black">
-                    {title}
-                </p>
-
-                <img
-                    className="my-5 h-6 w-full object-cover"
-                    src={line}
-                    alt=""
-                />
-
-                <div className="grid grid-cols-2 items-start gap-3.75">
-                    {inputFilters?.map(item => {
+            <div className="grid grid-cols-2 gap-3">
+                {filters.map((item) => {
+                    if (type === 'input') {
                         return (
                             <Input
                                 key={item.id}
-                                defValue={item.placeholder}
-                                onChange={onChange}
-                                placeholder={item.placeholder}
+                                placeholder={item.placeholder || item.title}
+                                onChange={(value) => onInputChange?.(item.id, value)}
                             />
                         );
-                    })}
-                </div>
+                    }
+
+                    return (
+                        <Button
+                            key={item.id}
+                            className={classNames(
+                                'h-full w-full bg-transparent text-black transition duration-200 hover:text-accent text-start',
+                                {
+                                    'text-accent': item.data && isActive(item.data),
+                                },
+                            )}
+                            def={false}
+                            onClick={() => {
+                                onClick?.(item);
+
+                                if (item.data) {
+                                    toggleFilter(item.data);
+                                }
+                            }}
+                        >
+                            {item.title}
+                        </Button>
+                    );
+                })}
             </div>
-        )
-    }
+        </div>
+    );
 };
