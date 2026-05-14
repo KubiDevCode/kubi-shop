@@ -20,7 +20,7 @@ export const Header = ({ className }: HeaderProps) => {
                     <Logo />
                     <nav className="flex items-center gap-10 w-max">
                         <Link to={RouterPath[Path.HOME]} className='hover:text-accent transition duration-200'>HOME</Link>
-                        <a href="" className='hover:text-accent transition duration-200'>ABOUT</a>
+                        <Link to={RouterPath[Path.ABOUT]} className='hover:text-accent transition duration-200'>ABOUT</Link>
                         <Link to={RouterPath[Path.SHOP]} className='hover:text-accent transition duration-200'>SHOP</Link>
                         <a href="" className='hover:text-accent transition duration-200'>BLOGS</a>
                         <a href="" className='hover:text-accent transition duration-200'>PAGES</a>
