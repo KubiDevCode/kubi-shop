@@ -1,5 +1,53 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Outfit';
+  src: url('../fonts/Outfit/Outfit-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('../fonts/Outfit/Outfit-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('../fonts/Outfit/Outfit-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('../fonts/Jost/Jost-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('../fonts/Lora/Lora-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Syne';
+  src: url('../fonts/Syne/Syne-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   *,
   *::before,
@@ -19,7 +67,7 @@
 
   body {
     margin: 0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: Outfit, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: #f8fafc;
     color: #0f172a;
     text-rendering: optimizeLegibility;
@@ -99,7 +147,11 @@
   --color-border: #e5e5e5;
   --color-accent: #ff6b4a;
 
-  --font-sans: Inter, system-ui, sans-serif;
+  --font-sans: Outfit, system-ui, sans-serif;
+  --font-inter: Inter, system-ui, sans-serif;
+  --font-jost: Jost, system-ui, sans-serif;
+  --font-lora: Lora, Georgia, serif;
+  --font-syne: Syne, system-ui, sans-serif;
 
   --radius-card: 4px;
 }
