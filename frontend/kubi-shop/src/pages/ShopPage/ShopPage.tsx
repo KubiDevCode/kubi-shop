@@ -9,6 +9,7 @@ import { ShopProductList } from "../../widgets/ShopProductList/index";
 import { useGetPageProductsByFiltersQuery } from "../../shared/API/api";
 import { useAppSelector } from "../../app/providers/storeProvider/store";
 import { getShopPageBrands, getShopPageCategories, getShopPageMaxPrice, getShopPageMinPrice, getShopPageTags } from "./model/selectors/shopPageSelectors";
+import { Footer } from "@/widgets/Footer/Footer";
 
 export const ShopPage = () => {
     const categories = useAppSelector(getShopPageCategories)
@@ -39,6 +40,7 @@ export const ShopPage = () => {
                     setPage={setPage}
                 />
             </Container>
+            <Footer/>
         </>
     );
 };
