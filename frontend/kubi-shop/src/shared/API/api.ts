@@ -5,109 +5,108 @@ import type { CategoryNameType } from '../../entities/Category/types/categoryTyp
 import type { BrandNameType } from '../../entities/Brand/types/brandTypes'
 import type { TagNameType } from '../../entities/Tag/types/tagTypes'
 
-
 // Define a service using a base URL and expected endpoints
 export const shopApi = createApi({
-    reducerPath: 'shopApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/' }),
-    endpoints: (build) => ({
-        getAllCategory: build.query<CategoryType[], void>({
-            query: () => 'category',
-        }),
-        getPageProducts: build.query<ProductPageType, { page: number, limit: number }>({
-            query: ({ page, limit }) => (
-                {
-                    url: '/products/page',
-                    params: {
-                        page,
-                        limit
-                    },
-                }
-            )
-        }),
-        getPageProductsByCategory: build.query<ProductPageType, { categories: CategoryNameType[], page: number, limit: number }>({
-            query: ({ categories, page, limit }) => {
-                if (!categories || categories.length === 0) {
-                    return {
-                        url: '/products/page',
-                        params: { page, limit },
-                    };
-                }
-
-                return {
-                    url: '/products/page/category',
-                    params: {
-                        categories,
-                        page,
-                        limit,
-                    },
-                };
-            },
-        }),
-        getPageProductsByBrand: build.query<ProductPageType, { brands: BrandNameType[], page: number, limit: number }>({
-            query: ({ brands, page, limit }) => {
-                if (!brands || brands.length === 0) {
-                    return {
-                        url: '/products/page',
-                        params: { page, limit },
-                    };
-                }
-
-                return {
-                    url: '/products/page/brand',
-                    params: {
-                        brands,
-                        page,
-                        limit,
-                    },
-                };
-            },
-        }),
-        getPageProductsByFilters: build.query<
-            ProductPageType,
-            {
-                brands?: BrandNameType[];
-                tags?: TagNameType[];
-                categories?: CategoryNameType[];
-                minprice: number;
-                maxprice: number;
-                page: number;
-                limit: number;
-            }
-        >({
-            query: ({ brands = ['all'], tags = ['all'], categories = ['all'], minprice, maxprice, page, limit }) => {
-
-                return {
-                    url: '/products/page/filters',
-                    params: {
-                        ...(brands.length > 0 && {
-                            brands: brands.join(','),
-                        }),
-
-                        ...(categories.length > 0 && {
-                            categories: categories.join(','),
-                        }),
-
-                        ...(tags.length > 0 && {
-                            tags: tags.join(','),
-                        }),
-                        minprice,
-                        maxprice,
-                        page,
-                        limit,
-                    },
-                };
-            },
-        }),
+  reducerPath: 'shopApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/' }),
+  endpoints: (build) => ({
+    getAllCategory: build.query<CategoryType[], void>({
+      query: () => 'category',
     }),
+    getPageProducts: build.query<ProductPageType, { page: number; limit: number }>({
+      query: ({ page, limit }) => ({
+        url: '/products/page',
+        params: {
+          page,
+          limit,
+        },
+      }),
+    }),
+    getPageProductsByCategory: build.query<
+      ProductPageType,
+      { categories: CategoryNameType[]; page: number; limit: number }
+    >({
+      query: ({ categories, page, limit }) => {
+        if (!categories || categories.length === 0) {
+          return {
+            url: '/products/page',
+            params: { page, limit },
+          }
+        }
+
+        return {
+          url: '/products/page/category',
+          params: {
+            categories,
+            page,
+            limit,
+          },
+        }
+      },
+    }),
+    getPageProductsByBrand: build.query<ProductPageType, { brands: BrandNameType[]; page: number; limit: number }>({
+      query: ({ brands, page, limit }) => {
+        if (!brands || brands.length === 0) {
+          return {
+            url: '/products/page',
+            params: { page, limit },
+          }
+        }
+
+        return {
+          url: '/products/page/brand',
+          params: {
+            brands,
+            page,
+            limit,
+          },
+        }
+      },
+    }),
+    getPageProductsByFilters: build.query<
+      ProductPageType,
+      {
+        brands?: BrandNameType[]
+        tags?: TagNameType[]
+        categories?: CategoryNameType[]
+        minprice: number
+        maxprice: number
+        page: number
+        limit: number
+      }
+    >({
+      query: ({ brands = ['all'], tags = ['all'], categories = ['all'], minprice, maxprice, page, limit }) => {
+        return {
+          url: '/products/page/filters',
+          params: {
+            ...(brands.length > 0 && {
+              brands: brands.join(','),
+            }),
+
+            ...(categories.length > 0 && {
+              categories: categories.join(','),
+            }),
+
+            ...(tags.length > 0 && {
+              tags: tags.join(','),
+            }),
+            minprice,
+            maxprice,
+            page,
+            limit,
+          },
+        }
+      },
+    }),
+  }),
 })
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const {
-    useGetAllCategoryQuery,
-    useGetPageProductsQuery,
-    useGetPageProductsByCategoryQuery,
-    useGetPageProductsByBrandQuery,
-    useGetPageProductsByFiltersQuery,
+  useGetAllCategoryQuery,
+  useGetPageProductsQuery,
+  useGetPageProductsByCategoryQuery,
+  useGetPageProductsByBrandQuery,
+  useGetPageProductsByFiltersQuery,
 } = shopApi

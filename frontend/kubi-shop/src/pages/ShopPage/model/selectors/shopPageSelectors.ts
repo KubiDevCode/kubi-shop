@@ -1,5 +1,4 @@
-import type { RootState } from "../../../../app/providers/storeProvider/store";
-
+import type { RootState } from '../../../../app/providers/storeProvider/store'
 
 export const getShopPageCategories = (state: RootState) => state.shopPage.shopPage.categories
 

@@ -1,11 +1,7 @@
 interface SkeletonProps {
-    className?: string;
+  className?: string
 }
 
-export const Skeleton = ({ className = "" }: SkeletonProps) => {
-    return (
-        <div
-            className={`animate-pulse rounded bg-gray-200 ${className}`}
-        />
-    );
-};
+export const Skeleton = ({ className = '' }: SkeletonProps) => {
+  return <div className={`animate-pulse rounded bg-gray-200 ${className}`} />
+}
