@@ -196,15 +196,10 @@ export class ProductsService {
       };
     }
 
-    if (minPrice) {
+    if (minPrice || maxPrice) {
       where.price = {
-        gte: minPrice
-      }
-    }
-
-    if (maxPrice) {
-      where.price = {
-        lte: maxPrice
+        ...(minPrice && { gte: minPrice }),
+        ...(maxPrice && { lte: maxPrice }),
       }
     }
 

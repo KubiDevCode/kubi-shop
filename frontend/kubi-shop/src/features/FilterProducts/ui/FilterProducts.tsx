@@ -1,93 +1,13 @@
 import classNames from 'classnames'
-import type { CategoryNameType } from '@/entities/Category'
 import { useAppDispatch } from '@/shared/model/store'
-import type { BrandNameType } from '@/entities/Brand'
-import type { TagNameType } from '@/entities/Tag'
 import { shopPageActions } from '../model/slice/shopPageSlice'
 import { FilterSection } from './FilterSection'
+import type { FilterItem, InputFilterItem, ShopFilter } from '../types/filterProductsTypes'
+import { shopFilters, shopPriceFilter } from '../items/filterItems'
 
 interface FilterProductsProps {
   className?: string
 }
-
-type FilterType = 'category' | 'brand' | 'tag'
-
-interface FilterItem {
-  id: number
-  title: string
-  data: CategoryNameType | BrandNameType | TagNameType
-}
-
-interface ShopFilter {
-  id: number
-  title: string
-  type: FilterType
-  filters: FilterItem[]
-}
-
-interface InputFilterItem {
-  id: number
-  placeholder: string
-  title: string
-  defValue?: string
-  onChange: (value: string) => void
-}
-
-interface InputShopFilter {
-  id: number
-  title: string
-  filters: InputFilterItem[]
-}
-
-const shopFilters: ShopFilter[] = [
-  {
-    id: 1,
-    title: 'CATEGORIES',
-    type: 'category',
-    filters: [
-      { id: 1, title: 'All', data: 'all' },
-      { id: 2, title: 'EarPods', data: 'earpods' },
-      { id: 3, title: 'Joysticks', data: 'joysticks' },
-      { id: 4, title: 'Laptops', data: 'laptops' },
-      { id: 5, title: 'Phones', data: 'phones' },
-      { id: 6, title: 'PlayStations', data: 'playstations' },
-      { id: 7, title: 'Digital Watches', data: 'digital-watches' },
-    ],
-  },
-  {
-    id: 2,
-    title: 'BRANDS',
-    type: 'brand',
-    filters: [
-      { id: 1, title: 'All', data: 'all' },
-      { id: 2, title: 'Apple', data: 'apple' },
-      { id: 3, title: 'Samsung', data: 'samsung' },
-      { id: 4, title: 'Sony', data: 'sony' },
-      { id: 5, title: 'Xiaomi', data: 'xiaomi' },
-      { id: 6, title: 'Asus', data: 'asus' },
-      { id: 7, title: 'Lenovo', data: 'lenovo' },
-      { id: 8, title: 'JBL', data: 'jbl' },
-      { id: 9, title: 'Microsoft', data: 'microsoft' },
-      { id: 10, title: 'Dell', data: 'dell' },
-      { id: 11, title: 'HP', data: 'hp' },
-      { id: 12, title: 'Logitech', data: 'logitech' },
-    ],
-  },
-  {
-    id: 3,
-    title: 'TAGS',
-    type: 'tag',
-    filters: [
-      { id: 1, title: 'All', data: 'all' },
-      { id: 2, title: 'New', data: 'new' },
-      { id: 3, title: 'Popular', data: 'popular' },
-      { id: 4, title: 'Premium', data: 'premium' },
-      { id: 5, title: 'Budget', data: 'budget' },
-      { id: 6, title: 'Gaming', data: 'gaming' },
-      { id: 7, title: 'Wireless', data: 'wireless' },
-    ],
-  },
-]
 
 export const FilterProducts = ({ className }: FilterProductsProps) => {
   const dispatch = useAppDispatch()
@@ -97,32 +17,20 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
     brand: shopPageActions.toggleBrands,
     tag: shopPageActions.toggleTags,
   }
-
-  const shopPriceFilter: InputShopFilter = {
-    id: 4,
-    title: 'PRICE',
-    filters: [
-      {
-        id: 1,
-        title: 'Min price',
-        placeholder: 'Min price',
-        onChange: (value: string) => {
-          dispatch(shopPageActions.setMinPrice(Number(value) || 0))
-        },
-      },
-      {
-        id: 2,
-        title: 'Max price',
-        placeholder: 'Max price',
-        onChange: (value: string) => {
-          dispatch(shopPageActions.setMaxPrice(Number(value) || 99999999))
-        },
-      },
-    ],
-  }
-
   const filterProducts = (section: ShopFilter, filter: FilterItem) => {
     dispatch(filterActions[section.type](filter.data as never))
+  }
+
+  const changePriceFilter = (filter: InputFilterItem, value: string) => {
+    const price = Number(value) || (filter.action === 'minPrice' ? 0 : 99999999)
+
+    if (filter.action === 'minPrice') {
+      dispatch(shopPageActions.setMinPrice(price))
+    }
+
+    if (filter.action === 'maxPrice') {
+      dispatch(shopPageActions.setMaxPrice(price))
+    }
   }
 
   return (
@@ -133,11 +41,7 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
             key={section.id}
             title={section.title}
             filters={section.filters}
-            onClick={(filter) => {
-              if (filter.data) {
-                filterProducts(section, filter as FilterItem)
-              }
-            }}
+            onClick={(filter) => filterProducts(section, filter)}
             type={'button'}
           />
         ))}
@@ -145,9 +49,7 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
           title={shopPriceFilter.title}
           filters={shopPriceFilter.filters}
           type="input"
-          onInputChange={(id, value) => {
-            shopPriceFilter.filters.find((filter) => filter.id === id)?.onChange(value)
-          }}
+          onInputChange={changePriceFilter}
         />
       </div>
     </section>

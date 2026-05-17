@@ -2,24 +2,15 @@ import classNames from 'classnames'
 import line from '@/assets/image/line.png'
 import { Button, Input } from '@/shared/ui'
 import { useActiveFilters } from '@/shared/lib'
-import type { BrandNameType } from '@/entities/Brand'
-import type { CategoryNameType } from '@/entities/Category'
-import type { TagNameType } from '@/entities/Tag'
-
-interface FilterItem {
-  id: number
-  title: string
-  data?: CategoryNameType | BrandNameType | TagNameType
-  placeholder?: string
-}
+import type { FilterItem, InputFilterItem } from '../types/filterProductsTypes'
 
 interface FilterSectionProps {
   className?: string
   title: string
-  filters: FilterItem[]
+  filters: Array<FilterItem | InputFilterItem>
   type?: 'button' | 'input'
   onClick?: (data: FilterItem) => void
-  onInputChange?: (id: number, value: string) => void
+  onInputChange?: (data: InputFilterItem, value: string) => void
 }
 
 export const FilterSection = (props: FilterSectionProps) => {
@@ -40,31 +31,33 @@ export const FilterSection = (props: FilterSectionProps) => {
       <div className="grid grid-cols-2 gap-3">
         {filters.map((item) => {
           if (type === 'input') {
+            const inputItem = item as InputFilterItem
+
             return (
               <Input
-                key={item.id}
-                placeholder={item.placeholder || item.title}
-                onChange={(value) => onInputChange?.(item.id, value)}
+                key={inputItem.id}
+                placeholder={inputItem.placeholder || inputItem.title}
+                onChange={(value) => onInputChange?.(inputItem, value)}
               />
             )
           }
 
+          const buttonItem = item as FilterItem
+
           return (
             <Button
-              key={item.id}
+              key={buttonItem.id}
               className={classNames(
                 'h-full w-full bg-transparent text-start transition duration-200 hover:text-accent',
-                item.data && isActive(item.data) ? 'text-accent' : 'text-black'
+                isActive(buttonItem.data) ? 'text-accent' : 'text-black'
               )}
               def={false}
               onClick={() => {
-                if (item.data) {
-                  onClick?.(item)
-                  toggleFilter(item.data)
-                }
+                onClick?.(buttonItem)
+                toggleFilter(buttonItem.data)
               }}
             >
-              {item.title}
+              {buttonItem.title}
             </Button>
           )
         })}

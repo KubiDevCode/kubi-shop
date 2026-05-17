@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-import { BestSellerWidget } from '../../../widgets/BestSellerWisget'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
@@ -21,7 +20,6 @@ export const Button = (props: ButtonProps) => {
       onClick={onClick}
       {...otherProps}
     >
-      <BestSellerWidget />
       {children}
     </button>
   )
