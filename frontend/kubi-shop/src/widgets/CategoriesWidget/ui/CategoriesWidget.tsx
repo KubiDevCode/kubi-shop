@@ -1,9 +1,7 @@
-import { Container } from '../../../shared/Container/Container'
-import line from '../../../assets/image/line.png'
-
-import { ItemCard } from '../../../entities/ItemCard/ItemCard'
-import { useGetAllCategoryQuery } from '../../../shared/API/api'
-import { Skeleton } from '../../../shared/UI/Skeletons/Skeletons'
+import line from '@/assets/image/line.png'
+import { useGetAllCategoryQuery } from '@/entities/Category'
+import { ItemCard } from '@/entities/ItemCard'
+import { Container, Skeleton } from '@/shared/ui'
 
 export const CategoriesWidget = () => {
   const { data, isLoading } = useGetAllCategoryQuery()

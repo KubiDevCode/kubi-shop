@@ -3,8 +3,8 @@ import type { EmblaOptionsType } from 'embla-carousel'
 import { Children, type ReactNode } from 'react'
 import classNames from 'classnames'
 
-import SliderRight from '../../../assets/icons/slider-right.svg?react'
-import SliderLeft from '../../../assets/icons/slider-left.svg?react'
+import SliderRight from '@/assets/icons/slider-right.svg?react'
+import SliderLeft from '@/assets/icons/slider-left.svg?react'
 import { Button } from '../Button/Button'
 
 interface CarouselProps {
