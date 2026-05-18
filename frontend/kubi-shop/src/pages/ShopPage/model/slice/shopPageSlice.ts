@@ -21,7 +21,7 @@ const initialState: ShopPageState = {
     categories: [],
     brands: [],
     tags: [],
-    sort: "default",
+    sort: 'default',
     minprice: 0,
     maxprice: 999999,
   },

@@ -29,7 +29,16 @@ export const productApi = baseApi.injectEndpoints({
         limit: number
       }
     >({
-      query: ({ brands = ['all'], tags = ['all'], categories = ['all'], sort = 'default', minprice, maxprice, page, limit }) => {
+      query: ({
+        brands = ['all'],
+        tags = ['all'],
+        categories = ['all'],
+        sort = 'default',
+        minprice,
+        maxprice,
+        page,
+        limit,
+      }) => {
         return {
           url: '/products/page/filters',
           params: {

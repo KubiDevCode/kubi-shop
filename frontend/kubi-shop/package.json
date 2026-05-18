@@ -13,6 +13,9 @@
     "format:check": "prettier . --check",
     "prepare": "cd ../.. && husky"
   },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,json,css}": "prettier --write"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "@tailwindcss/vite": "^4.2.4",
@@ -38,6 +41,7 @@
     "eslint-plugin-unused-imports": "^4.4.1",
     "globals": "^16.5.0",
     "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",

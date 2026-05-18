@@ -23,15 +23,15 @@ export const ShopProductList = (props: ShopProductListProps) => {
           <Select
             value={sortValue}
             selectOptions={sort}
-            className='text-[24px]'
+            className="text-[24px]"
             onChange={onChangeSort}
           />
         </div>
-        <div className="grid min-h-[880px] w-max grid-cols-4 gap-x-2.5 gap-y-5">
+        <div className="grid min-h-220 w-max grid-cols-4 gap-x-2.5 gap-y-5">
           {Array.from({ length: limit }).map((_, index) => (
             <div
               key={index}
-              className="flex h-[280px] w-[200px] flex-col justify-between rounded-2xl border-2 border-border bg-white px-6.25 py-7.5"
+              className="flex h-70 w-50 flex-col justify-between rounded-2xl border-2 border-border bg-white px-6.25 py-7.5"
             >
               <Skeleton className="mb-4 h-full rounded-lg" />
               <Skeleton className="mx-auto h-5 w-24" />
@@ -51,11 +51,11 @@ export const ShopProductList = (props: ShopProductListProps) => {
         <Select
           value={sortValue}
           selectOptions={sort}
-          className='text-[24px]'
+          className="text-[24px]"
           onChange={onChangeSort}
         />
       </div>
-      <div className="grid min-h-[880px] w-max grid-cols-4 content-start gap-x-2.5 gap-y-5">
+      <div className="grid min-h-220 w-max grid-cols-4 content-start gap-x-2.5 gap-y-5">
         {data?.products.map((item) => (
           <ItemCard
             size="big"
