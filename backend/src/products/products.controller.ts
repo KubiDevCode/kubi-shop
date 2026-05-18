@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Query, ParseIntPipe, Post, ParseArrayPipe, BadRequestException, DefaultValuePipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { Brand, CATEGORIES, Category, Tag } from './dto/product.dto';
+import { Brand, Category, type SortPriceType, Tag } from './dto/product.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -17,34 +17,6 @@ export class ProductsController {
     @Query('limit', ParseIntPipe) limit: number
   ) {
     return this.productsService.findPage(page, limit)
-  }
-
-  @Get('page/category')
-  findPageByCategory(
-    @Query('page', ParseIntPipe) page: number,
-    @Query('limit', ParseIntPipe) limit: number,
-    @Query(
-      'categories',
-      new DefaultValuePipe([]),
-      ParseArrayPipe,
-    )
-    categories: Category[],
-  ) {
-    return this.productsService.findPageByCategory(categories, page, limit);
-  }
-
-  @Get('page/brand')
-  findPageByBrand(
-    @Query('page', ParseIntPipe) page: number,
-    @Query('limit', ParseIntPipe) limit: number,
-    @Query(
-      'brands',
-      new DefaultValuePipe([]),
-      ParseArrayPipe,
-    )
-    brands: Brand[],
-  ) {
-    return this.productsService.findPageByBrand(brands, page, limit);
   }
 
   @Get('page/filters')
@@ -81,8 +53,13 @@ export class ProductsController {
       ParseIntPipe,
     )
     maxprice: number,
+    @Query(
+      'sort',
+      new DefaultValuePipe(undefined),
+    )
+    sort: SortPriceType,
   ) {
-    return this.productsService.findPageByFilters(brands, categories, tags, page, minprice, maxprice, limit);
+    return this.productsService.findPageByFilters(brands, categories, tags, page, minprice, maxprice, sort, limit);
   }
 
   @Get(':id')

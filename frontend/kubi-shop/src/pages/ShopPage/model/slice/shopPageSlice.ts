@@ -3,12 +3,14 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 import type { CategoryNameType } from '@/entities/Category'
 import type { BrandNameType } from '@/entities/Brand'
 import type { TagNameType } from '@/entities/Tag'
+import type { SortProductsType } from '@/entities/Product'
 
 export interface ShopPageState {
   shopPage: {
     categories: CategoryNameType[]
     brands: BrandNameType[]
     tags: TagNameType[]
+    sort: SortProductsType
     minprice: number
     maxprice: number
   }
@@ -19,6 +21,7 @@ const initialState: ShopPageState = {
     categories: [],
     brands: [],
     tags: [],
+    sort: "default",
     minprice: 0,
     maxprice: 999999,
   },
@@ -82,6 +85,10 @@ export const shopPageSlice = createSlice({
 
     setMaxPrice: (state, action: PayloadAction<number>) => {
       state.shopPage.maxprice = action.payload
+    },
+
+    setSort: (state, action: PayloadAction<SortProductsType>) => {
+      state.shopPage.sort = action.payload
     },
   },
 })

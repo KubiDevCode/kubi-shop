@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import type { MouseEvent } from 'react'
 import { Button } from '@/shared/ui'
 
 interface ProductsPaginationProps {
@@ -12,6 +13,16 @@ export const ProductsPagination = (props: ProductsPaginationProps) => {
 
   const pagBut = totalPage < 5 ? totalPage : 5
 
+  const changePage = (event: MouseEvent<HTMLButtonElement>, newPage: number) => {
+    event.currentTarget.blur()
+
+    if (newPage === page) {
+      return
+    }
+
+    setPage(newPage)
+  }
+
   const pages = Array.from({ length: pagBut }, (_, index) => {
     if (page <= 3) {
       return index + 1
@@ -23,7 +34,8 @@ export const ProductsPagination = (props: ProductsPaginationProps) => {
   return (
     <div className="flex gap-5 py-10 w-207.5 mx-auto items-center justify-center">
       <Button
-        onClick={() => setPage(page - 1)}
+        type="button"
+        onClick={(event) => changePage(event, page - 1)}
         className="bg-transparent text-black transition duration-200 hover:text-accent hover:cursor-pointer"
         def={false}
         disabled={page === 1}
@@ -36,7 +48,8 @@ export const ProductsPagination = (props: ProductsPaginationProps) => {
         {pages.map((item) => (
           <Button
             key={item}
-            onClick={() => setPage(item)}
+            type="button"
+            onClick={(event) => changePage(event, item)}
             className={classNames(
               'bg-transparent w-12 h-10 flex items-center justify-center transition-none hover:transition hover:duration-200 hover:text-accent hover:opacity-50',
               item === page ? 'text-accent' : 'text-black'
@@ -50,7 +63,8 @@ export const ProductsPagination = (props: ProductsPaginationProps) => {
       </div>
 
       <Button
-        onClick={() => setPage(page + 1)}
+        type="button"
+        onClick={(event) => changePage(event, page + 1)}
         className="bg-transparent text-black transition duration-200 hover:text-accent hover:cursor-pointer"
         def={false}
         disabled={page === totalPage}

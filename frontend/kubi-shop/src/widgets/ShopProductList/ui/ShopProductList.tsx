@@ -1,25 +1,37 @@
 import { ItemCard } from '@/entities/ItemCard'
 import type { ProductPageType } from '@/entities/Product'
 import { Skeleton } from '@/shared/ui'
+import { Select } from '@/shared/ui/Select/Select'
 
 interface ShopProductListProps {
   limit: number
   data: ProductPageType | undefined
   isLoading: boolean
+  sortValue: string
+  sort: { label: string; value: string }[]
+  onChangeSort: (value: string) => void
 }
 
 export const ShopProductList = (props: ShopProductListProps) => {
-  const { limit, data, isLoading } = props
+  const { limit, data, isLoading, sortValue, sort, onChangeSort } = props
 
   if (isLoading) {
     return (
       <section>
-        <Skeleton className="w-70 h-9 mb-3.75" />
-        <div className="w-max grid grid-cols-4 gap-x-2.5 gap-y-5 ">
+        <div className="flex items-center justify-between mb-3.75">
+          <Skeleton className="w-70 h-9" />
+          <Select
+            value={sortValue}
+            selectOptions={sort}
+            className='text-[24px]'
+            onChange={onChangeSort}
+          />
+        </div>
+        <div className="grid min-h-[880px] w-max grid-cols-4 gap-x-2.5 gap-y-5">
           {Array.from({ length: limit }).map((_, index) => (
             <div
               key={index}
-              className="flex flex-col justify-between w-50 h-70 rounded-xl border border-gray-200 bg-white p-6.25"
+              className="flex h-[280px] w-[200px] flex-col justify-between rounded-2xl border-2 border-border bg-white px-6.25 py-7.5"
             >
               <Skeleton className="mb-4 h-full rounded-lg" />
               <Skeleton className="mx-auto h-5 w-24" />
@@ -32,10 +44,18 @@ export const ShopProductList = (props: ShopProductListProps) => {
 
   return (
     <section>
-      <h2 className="mb-3.75 text-[24px]">
-        {data ? `Showing 1–${data?.totalPage} of ${data?.total} results` : 'No results'}
-      </h2>
-      <div className="w-max grid grid-cols-4 gap-x-2.5 gap-y-5 ">
+      <div className="flex items-center justify-between mb-3.75">
+        <h2 className="text-[24px]">
+          {data ? `Showing 1–${data?.totalPage} of ${data?.total} results` : 'No results'}
+        </h2>
+        <Select
+          value={sortValue}
+          selectOptions={sort}
+          className='text-[24px]'
+          onChange={onChangeSort}
+        />
+      </div>
+      <div className="grid min-h-[880px] w-max grid-cols-4 content-start gap-x-2.5 gap-y-5">
         {data?.products.map((item) => (
           <ItemCard
             size="big"

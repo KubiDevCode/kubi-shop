@@ -2,15 +2,15 @@ import classNames from 'classnames'
 import line from '@/assets/image/line.png'
 import { Button, Input } from '@/shared/ui'
 import { useActiveFilters } from '@/shared/lib'
-import type { FilterItem, InputFilterItem } from '../types/filterProductsTypes'
+import type { FilterItemType, InputFilterItemType } from '../types/filterProductsTypes'
 
 interface FilterSectionProps {
   className?: string
   title: string
-  filters: Array<FilterItem | InputFilterItem>
+  filters: Array<FilterItemType | InputFilterItemType>
   type?: 'button' | 'input'
-  onClick?: (data: FilterItem) => void
-  onInputChange?: (data: InputFilterItem, value: string) => void
+  onClick?: (data: FilterItemType) => void
+  onInputChange?: (data: InputFilterItemType, value: string) => void
 }
 
 export const FilterSection = (props: FilterSectionProps) => {
@@ -31,7 +31,7 @@ export const FilterSection = (props: FilterSectionProps) => {
       <div className="grid grid-cols-2 gap-3">
         {filters.map((item) => {
           if (type === 'input') {
-            const inputItem = item as InputFilterItem
+            const inputItem = item as InputFilterItemType
 
             return (
               <Input
@@ -42,7 +42,7 @@ export const FilterSection = (props: FilterSectionProps) => {
             )
           }
 
-          const buttonItem = item as FilterItem
+          const buttonItem = item as FilterItemType
 
           return (
             <Button

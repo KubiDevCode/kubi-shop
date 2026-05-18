@@ -1,38 +1,16 @@
 import classNames from 'classnames'
-import { useAppDispatch } from '@/shared/model/store'
-import { shopPageActions } from '../model/slice/shopPageSlice'
 import { FilterSection } from './FilterSection'
-import type { FilterItem, InputFilterItem, ShopFilter } from '../types/filterProductsTypes'
+import type { FilterItemType, InputFilterItemType, ShopFilterType } from '../types/filterProductsTypes'
 import { shopFilters, shopPriceFilter } from '../items/filterItems'
 
 interface FilterProductsProps {
   className?: string
+  onFilterSelect: (section: ShopFilterType, filter: FilterItemType) => void
+  onPriceFilterChange: (filter: InputFilterItemType, value: string) => void
 }
 
-export const FilterProducts = ({ className }: FilterProductsProps) => {
-  const dispatch = useAppDispatch()
-
-  const filterActions = {
-    category: shopPageActions.toggleCategory,
-    brand: shopPageActions.toggleBrands,
-    tag: shopPageActions.toggleTags,
-  }
-  const filterProducts = (section: ShopFilter, filter: FilterItem) => {
-    dispatch(filterActions[section.type](filter.data as never))
-  }
-
-  const changePriceFilter = (filter: InputFilterItem, value: string) => {
-    const price = Number(value) || (filter.action === 'minPrice' ? 0 : 99999999)
-
-    if (filter.action === 'minPrice') {
-      dispatch(shopPageActions.setMinPrice(price))
-    }
-
-    if (filter.action === 'maxPrice') {
-      dispatch(shopPageActions.setMaxPrice(price))
-    }
-  }
-
+export const FilterProducts = (props: FilterProductsProps) => {
+  const { className, onFilterSelect, onPriceFilterChange } = props
   return (
     <section className={classNames(className)}>
       <div className="flex flex-col gap-7.5">
@@ -41,7 +19,7 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
             key={section.id}
             title={section.title}
             filters={section.filters}
-            onClick={(filter) => filterProducts(section, filter)}
+            onClick={(filter) => onFilterSelect(section, filter)}
             type={'button'}
           />
         ))}
@@ -49,7 +27,7 @@ export const FilterProducts = ({ className }: FilterProductsProps) => {
           title={shopPriceFilter.title}
           filters={shopPriceFilter.filters}
           type="input"
-          onInputChange={changePriceFilter}
+          onInputChange={onPriceFilterChange}
         />
       </div>
     </section>

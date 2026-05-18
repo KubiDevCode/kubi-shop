@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { baseApi } from '@/shared/api'
-import { shopPageReducer } from '@/features/FilterProducts'
+import { shopPageReducer } from '@/pages/ShopPage/model/slice/shopPageSlice'
 
 export const store = configureStore({
   reducer: {

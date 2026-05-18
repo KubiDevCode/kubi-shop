@@ -5,20 +5,20 @@ import type { TagNameType } from '@/entities/Tag'
 export type FilterType = 'category' | 'brand' | 'tag'
 export type PriceFilterAction = 'minPrice' | 'maxPrice'
 
-export interface FilterItem {
+export interface FilterItemType {
   id: number
   title: string
   data: CategoryNameType | BrandNameType | TagNameType
 }
 
-export interface ShopFilter {
+export interface ShopFilterType {
   id: number
   title: string
   type: FilterType
-  filters: FilterItem[]
+  filters: FilterItemType[]
 }
 
-export interface InputFilterItem {
+export interface InputFilterItemType {
   id: number
   placeholder: string
   title: string
@@ -26,8 +26,8 @@ export interface InputFilterItem {
   action: PriceFilterAction
 }
 
-export interface InputShopFilter {
+export interface InputShopFilterType {
   id: number
   title: string
-  filters: InputFilterItem[]
+  filters: InputFilterItemType[]
 }

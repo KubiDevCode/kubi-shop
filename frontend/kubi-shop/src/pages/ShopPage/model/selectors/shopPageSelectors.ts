@@ -9,3 +9,5 @@ export const getShopPageTags = (state: RootState) => state.shopPage.shopPage.tag
 export const getShopPageMinPrice = (state: RootState) => state.shopPage.shopPage.minprice
 
 export const getShopPageMaxPrice = (state: RootState) => state.shopPage.shopPage.maxprice
+
+export const getShopPageSort = (state: RootState) => state.shopPage.shopPage.sort

@@ -76,7 +76,7 @@ export const AboutPage = () => {
     <>
       <Header />
       <PageHero title="About" />
-      <main className="grow">
+      <Container>
         <section className="section">
           <Container className="grid grid-cols-4 gap-5">
             <AboutQualityComponent
@@ -142,7 +142,7 @@ export const AboutPage = () => {
             <EmilySVG />
           </Container>
         </section>
-      </main>
+      </Container>
       <Footer />
       {/* <Hero /> */}
       {/* <CategoriesWidget /> */}

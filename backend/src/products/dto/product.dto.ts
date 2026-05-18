@@ -52,4 +52,6 @@ export const TAGS = ['all',
     'wireless'
 ]
 
+export type SortPriceType = 'default' | "asc" | "desc"
+
 export type Tag = typeof TAGS[number]

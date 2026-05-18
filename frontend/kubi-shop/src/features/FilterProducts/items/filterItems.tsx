@@ -1,6 +1,6 @@
-import type { ShopFilter, InputShopFilter } from '../types/filterProductsTypes'
+import type { ShopFilterType, InputShopFilterType } from '../types/filterProductsTypes'
 
-export const shopFilters: ShopFilter[] = [
+export const shopFilters: ShopFilterType[] = [
   {
     id: 1,
     title: 'CATEGORIES',
@@ -50,7 +50,7 @@ export const shopFilters: ShopFilter[] = [
   },
 ]
 
-export const shopPriceFilter: InputShopFilter = {
+export const shopPriceFilter: InputShopFilterType = {
   id: 4,
   title: 'PRICE',
   filters: [

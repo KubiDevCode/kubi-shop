@@ -2,7 +2,7 @@ import { baseApi } from '@/shared/api'
 import type { BrandNameType } from '@/entities/Brand'
 import type { CategoryNameType } from '@/entities/Category'
 import type { TagNameType } from '@/entities/Tag'
-import type { ProductPageType } from '../model/types'
+import type { ProductPageType, SortProductsType } from '../types/productType'
 
 // Define a service using a base URL and expected endpoints
 export const productApi = baseApi.injectEndpoints({
@@ -22,13 +22,14 @@ export const productApi = baseApi.injectEndpoints({
         brands?: BrandNameType[]
         tags?: TagNameType[]
         categories?: CategoryNameType[]
+        sort: SortProductsType
         minprice: number
         maxprice: number
         page: number
         limit: number
       }
     >({
-      query: ({ brands = ['all'], tags = ['all'], categories = ['all'], minprice, maxprice, page, limit }) => {
+      query: ({ brands = ['all'], tags = ['all'], categories = ['all'], sort = 'default', minprice, maxprice, page, limit }) => {
         return {
           url: '/products/page/filters',
           params: {
@@ -43,6 +44,7 @@ export const productApi = baseApi.injectEndpoints({
             ...(tags.length > 0 && {
               tags: tags.join(','),
             }),
+            sort,
             minprice,
             maxprice,
             page,
