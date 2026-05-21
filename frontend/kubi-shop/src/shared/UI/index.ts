@@ -1,5 +1,7 @@
 export { Button } from './Button/Button'
 export { Carousel } from './Carousel/Carousel'
 export { Container } from './Container/Container'
+export { Form, type FormValues } from './Form/index'
 export { Input } from './Input/Input'
+export type { InputProps } from './Input/Input'
 export { Skeleton } from './Skeletons/Skeletons'

@@ -1,7 +1,7 @@
 import classNames from 'classnames'
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps {
   className?: string
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
   children: ReactNode
@@ -14,7 +14,7 @@ export const Button = (props: ButtonProps) => {
   return (
     <button
       className={classNames(className, {
-        ['mt-6 rounded-full bg-accent px-8 py-3 text-xs font-medium text-white transition duration-200 hover:opacity-80']:
+        ['rounded-full bg-accent px-8 py-3 text-xs font-medium text-white transition duration-200 hover:opacity-80']:
           def,
       })}
       onClick={onClick}

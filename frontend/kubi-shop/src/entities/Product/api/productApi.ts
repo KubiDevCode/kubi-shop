@@ -26,6 +26,7 @@ export const productApi = baseApi.injectEndpoints({
         minprice: number
         maxprice: number
         page: number
+        search: string
         limit: number
       }
     >({
@@ -37,6 +38,7 @@ export const productApi = baseApi.injectEndpoints({
         minprice,
         maxprice,
         page,
+        search,
         limit,
       }) => {
         return {
@@ -57,6 +59,7 @@ export const productApi = baseApi.injectEndpoints({
             minprice,
             maxprice,
             page,
+            search,
             limit,
           },
         }

@@ -19,6 +19,9 @@ export class ProductPageResponse {
     categories?: Category[]
     brands?: Brand[]
     limit!: number
+    minPrice?: number
+    maxPrice?: number
+    tags?: Tag[]
     totalPage!: number
     total!: number
     products!: ProductResponse[]

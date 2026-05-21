@@ -1,5 +1,5 @@
 import { ItemCard } from '@/entities/ItemCard'
-import type { ProductPageType } from '@/entities/Product'
+import type { ProductPageType, SortProductsType } from '@/entities/Product'
 import { Skeleton } from '@/shared/ui'
 import { Select } from '@/shared/ui/Select/Select'
 
@@ -9,7 +9,7 @@ interface ShopProductListProps {
   isLoading: boolean
   sortValue: string
   sort: { label: string; value: string }[]
-  onChangeSort: (value: string) => void
+  onChangeSort: (value: SortProductsType) => void
 }
 
 export const ShopProductList = (props: ShopProductListProps) => {
@@ -24,7 +24,7 @@ export const ShopProductList = (props: ShopProductListProps) => {
             value={sortValue}
             selectOptions={sort}
             className="text-[24px]"
-            onChange={onChangeSort}
+            onChange={(value) => onChangeSort(value as SortProductsType)}
           />
         </div>
         <div className="grid min-h-220 w-max grid-cols-4 gap-x-2.5 gap-y-5">
@@ -52,7 +52,7 @@ export const ShopProductList = (props: ShopProductListProps) => {
           value={sortValue}
           selectOptions={sort}
           className="text-[24px]"
-          onChange={onChangeSort}
+          onChange={(value) => onChangeSort(value as SortProductsType)}
         />
       </div>
       <div className="grid min-h-220 w-max grid-cols-4 content-start gap-x-2.5 gap-y-5">

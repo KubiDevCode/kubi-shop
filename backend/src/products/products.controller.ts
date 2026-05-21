@@ -58,8 +58,13 @@ export class ProductsController {
       new DefaultValuePipe(undefined),
     )
     sort: SortPriceType,
+    @Query(
+      'search',
+      new DefaultValuePipe(''),
+    )
+    search: string,
   ) {
-    return this.productsService.findPageByFilters(brands, categories, tags, page, minprice, maxprice, sort, limit);
+    return this.productsService.findPageByFilters(brands, categories, tags, page, minprice, maxprice, sort, search, limit);
   }
 
   @Get(':id')

@@ -88,7 +88,8 @@ export class ProductsService {
     minPrice: number,
     maxPrice: number,
     sort: SortPriceType,
-    limit: number = 12) {
+    search: string,
+    limit: number = 12): Promise<ProductPageResponse> {
     if (page <= 0 || limit <= 0) {
       throw new BadRequestException('Страница или лимит должны быть положительные')
     }
@@ -125,6 +126,13 @@ export class ProductsService {
       where.price = {
         ...(minPrice && { gte: minPrice }),
         ...(maxPrice && { lte: maxPrice }),
+      }
+    }
+
+    if (search.trim().length > 0) {
+      where.name = {
+        contains: search,
+        mode: 'insensitive',
       }
     }
 

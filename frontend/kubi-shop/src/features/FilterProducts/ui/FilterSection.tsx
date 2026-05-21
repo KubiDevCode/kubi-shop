@@ -36,6 +36,7 @@ export const FilterSection = (props: FilterSectionProps) => {
             return (
               <Input
                 key={inputItem.id}
+                type="number"
                 placeholder={inputItem.placeholder || inputItem.title}
                 onChange={(value) => onInputChange?.(inputItem, value)}
               />
