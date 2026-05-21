@@ -1,7 +1,6 @@
 import classNames from 'classnames'
-import { Form } from '@/shared/ui'
+import { Form, type FormValues } from '@/shared/ui'
 import SearchIcon from '@/assets/icons/search.svg?react'
-import type { FormValues } from '@/shared/ui/Form/ui/Form'
 
 interface ShopPageSearchProps {
   className?: string

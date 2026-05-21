@@ -48,7 +48,6 @@ export const ProductsPagination = (props: ProductsPaginationProps) => {
         {pages.map((item) => (
           <Button
             key={item}
-            type="button"
             onClick={(event) => changePage(event, item)}
             className={classNames(
               'bg-transparent w-12 h-10 flex items-center justify-center transition-none hover:transition hover:duration-200 hover:text-accent hover:opacity-50',
@@ -63,7 +62,6 @@ export const ProductsPagination = (props: ProductsPaginationProps) => {
       </div>
 
       <Button
-        type="button"
         onClick={(event) => changePage(event, page + 1)}
         className="bg-transparent text-black transition duration-200 hover:text-accent hover:cursor-pointer"
         def={false}
