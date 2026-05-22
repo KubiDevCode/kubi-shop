@@ -10,8 +10,7 @@ export const FormInput = function FormInput(props: FormInputProps) {
 
   return (
     <Input
-      value={form.values[name] || ''}
-      defValue={defValue}
+      value={form.values[name] || defValue}
       placeholder={placeholder}
       className={className}
       onChange={(value) => form.setValue(name, value)}
